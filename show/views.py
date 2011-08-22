@@ -2,8 +2,8 @@ from django.core.urlresolvers import reverse
 
 from cal.models import EntryItem
 from cal.view_modifiers import EntriesByWeekdaysViewModifier
-from panya.generic.views import GenericObjectDetail, GenericObjectList, GenericForm
-from panya.models import ModelBase
+from jmbo.generic.views import GenericObjectDetail, GenericObjectList, GenericForm
+from jmbo.models import ModelBase
 from event.models import Event
 from show.forms import ShowContributorContactForm
 from show.models import Appearance, RadioShow, ShowContributor

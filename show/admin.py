@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib import admin
 
-from panya.admin import ModelBaseAdmin
+from jmbo.admin import ModelBaseAdmin
 from preferences import preferences
 from show.models import Appearance, Credit, CreditOption, RadioShow, ShowContributor, ShowPreferences
 

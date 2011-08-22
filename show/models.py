@@ -4,7 +4,7 @@ from django.db import models
 
 from ckeditor.fields import RichTextField
 from event.models import Event
-from panya.models import ModelBase
+from jmbo.models import ModelBase
 from preferences.models import Preferences
 
 # Content Models

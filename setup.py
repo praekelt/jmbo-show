@@ -1,17 +1,17 @@
 from setuptools import setup, find_packages
 
 setup(
-    name='panya-show',
+    name='jmbo-show',
     version='0.0.6',
-    description='Panya show app.',
+    description='Jmbo show app.',
     long_description = open('README.rst', 'r').read() + open('AUTHORS.rst', 'r').read() + open('CHANGELOG.rst', 'r').read(),
     author='Praekelt Foundation',
     author_email='dev@praekelt.com',
     license='BSD',
-    url='http://github.com/praekelt/panya-show',
+    url='http://github.com/praekelt/jmbo-show',
     packages = find_packages(),
     install_requires = [
-        'panya',
+        'jmbo',
     ],
     include_package_data=True,
     classifiers = [

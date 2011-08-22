@@ -121,7 +121,7 @@ def generate():
     for i in range(1, (CREDIT_COUNT*10) + 1):
         # create show
         objects.append({
-            "model": "panya.ModelBase",
+            "model": "jmbo.ModelBase",
             "fields": {
                 "title": "Content %s Title" % i,
                 "description": "Content %s Title" % i,
