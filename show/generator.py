@@ -10,6 +10,7 @@ SHOW_COUNT = 20
 CREDIT_COUNT = 20
 CREDIT_OPTIONS = ((1, 'DJ'), (2, 'Newsreader'), )
 
+
 def generate():
     objects = []
 
@@ -26,7 +27,7 @@ def generate():
                 "image": random.sample(IMAGES, 1)[0],
                 "sites": {
                     "model": "sites.Site",
-                    "fields": { 
+                    "fields": {
                         "name": "example.com"
                     }
                 },
@@ -42,7 +43,7 @@ def generate():
                     "model": "preferences.ShowPreferences",
                     "fields": {},
                 },
-                "role_name" : option[1],
+                "role_name": option[1],
                 "role_priority": option[0],
             }
         })
@@ -69,7 +70,7 @@ def generate():
                         },
                         "sites": {
                             "model": "sites.Site",
-                            "fields": { 
+                            "fields": {
                                 "name": "example.com"
                             }
                         },
@@ -78,12 +79,13 @@ def generate():
                 "show": {
                     "model": "show.RadioShow",
                     "fields": {
-                        "title": "Radio Show %s Title" % random.randint(1, SHOW_COUNT)
+                        "title": "Radio Show %s Title" % random.randint(1, \
+                                SHOW_COUNT)
                     }
                 },
             },
         })
-                            
+
     # create some entries for shows
     for i in range(0, 24, 4):
         start_hour = i
@@ -91,16 +93,32 @@ def generate():
         objects.append({
             "model": "cal.Entry",
             "fields": {
-                "start": str(datetime.now().replace(hour=start_hour, minute=0, second=0, microsecond=0)),
-                "end": str(datetime.now().replace(hour=end_hour, minute=0, second=0, microsecond=0)),
+                "start": str(
+                    datetime.now().replace(
+                        hour=start_hour,
+                        minute=0,
+                        second=0,
+                        microsecond=0
+                    )
+                ),
+                "end": str(
+                    datetime.now().replace(
+                        hour=end_hour,
+                        minute=0,
+                        second=0,
+                        microsecond=0
+                    )
+                ),
                 "content": {
                     "model": "show.RadioShow",
                     "fields": {
-                        "title": "Radio Show %s Title" % random.randint(1, SHOW_COUNT),
+                        "title": "Radio Show %s Title" % random.randint(1, \
+                                SHOW_COUNT),
                     }
                 },
                 "repeat": "daily",
-                "repeat_until": str((datetime.now() + timedelta(days=30)).date()),
+                "repeat_until": str((datetime.now() + timedelta(days=30)).\
+                        date()),
                 "calendars": {
                     "model": "cal.Calendar",
                     "fields": {
@@ -108,7 +126,7 @@ def generate():
                         "state": "published",
                         "sites": {
                             "model": "sites.Site",
-                            "fields": { 
+                            "fields": {
                                 "name": "example.com"
                             },
                         },
@@ -118,7 +136,7 @@ def generate():
         })
 
     # create some content for each contributor
-    for i in range(1, (CREDIT_COUNT*10) + 1):
+    for i in range(1, (CREDIT_COUNT * 10) + 1):
         # create show
         objects.append({
             "model": "jmbo.ModelBase",
@@ -135,11 +153,11 @@ def generate():
                 },
                 "sites": {
                     "model": "sites.Site",
-                    "fields": { 
+                    "fields": {
                         "name": "example.com"
                     }
                 },
             }
         })
-    
+
     load_json(objects)

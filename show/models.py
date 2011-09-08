@@ -7,6 +7,7 @@ from event.models import Event
 from jmbo.models import ModelBase
 from preferences.models import Preferences
 
+
 # Content Models
 class ShowContributor(ModelBase):
     profile = RichTextField(
@@ -15,7 +16,7 @@ class ShowContributor(ModelBase):
         null=True,
     )
     shows = models.ManyToManyField(
-        'show.Show', 
+        'show.Show',
         through='show.Credit',
         related_name='show_contributors',
     )
@@ -25,24 +26,27 @@ class ShowContributor(ModelBase):
         verbose_name_plural = 'Show contributors'
 
     def get_absolute_url(self):
-        return reverse('showcontributor_content_list', kwargs={'slug': self.slug})
+        return reverse('showcontributor_content_list', kwargs={'slug': \
+                self.slug})
+
 
 class Credit(models.Model):
     contributor = models.ForeignKey(
-        'show.ShowContributor', 
+        'show.ShowContributor',
         related_name='credits'
     )
     show = models.ForeignKey(
-        'show.Show', 
+        'show.Show',
         related_name='credits'
     )
     role = models.IntegerField(
-        blank=True, 
+        blank=True,
         null=True,
     )
 
     def __unicode__(self):
         return "%s credit for %s" % (self.contributor.title, self.show.title)
+
 
 class Show(ModelBase):
     content = RichTextField(
@@ -51,13 +55,15 @@ class Show(ModelBase):
         null=True,
     )
     contributor = models.ManyToManyField(
-        'show.ShowContributor', 
+        'show.ShowContributor',
         through='show.Credit',
     )
 
     def get_primary_contributors(self):
         """
-        Returns a list of primary contributors, with primary being defined as those contributors that have the highest role assigned(in terms of priority). Only premitted contributors are returned.
+        Returns a list of primary contributors, with primary being defined
+        as those contributors that have the highest role assigned(in terms
+        of priority). Only premitted contributors are returned.
         """
         primary_credits = []
         credits = self.credits.exclude(role=None).order_by('role')
@@ -77,12 +83,16 @@ class Show(ModelBase):
 
     def is_contributor_title_in_title(self, contributor):
         """
-        Checks whether or not a contributors title is already present in the show's title.
+        Checks whether or not a contributors title is already
+        present in the show's title.
         """
-        return contributor.title.lower().lstrip().rstrip() in self.title.lower()
+        return contributor.title.lower().lstrip().rstrip() in \
+                self.title.lower()
+
 
 class RadioShow(Show):
     pass
+
 
 # Preferences Models
 class ShowPreferences(Preferences):
@@ -91,6 +101,7 @@ class ShowPreferences(Preferences):
     class Meta():
         verbose_name = 'Show preferences'
         verbose_name_plural = 'Show preferences'
+
 
 class CreditOption(models.Model):
     show_preferences = models.ForeignKey('preferences.ShowPreferences')
@@ -102,8 +113,10 @@ class CreditOption(models.Model):
     role_priority = models.IntegerField(
         blank=True,
         null=True,
-        help_text="The priority assigned to this role, with lower values being more importent.",
+        help_text="The priority assigned to this role, with lower values\
+being more importent.",
     )
+
 
 class Appearance(models.Model):
     event = models.ForeignKey(
