@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='jmbo-show',
-    version='0.0.6',
+    version='0.0.7',
     description='Jmbo show app.',
     long_description = open('README.rst', 'r').read() + open('AUTHORS.rst', 'r').read() + open('CHANGELOG.rst', 'r').read(),
     author='Praekelt Foundation',
@@ -12,7 +12,6 @@ setup(
     packages = find_packages(),
     install_requires = [
         'django-ckeditor',
-        'django-preferences',
         'jmbo',
         'jmbo-event',
     ],
