@@ -6,7 +6,7 @@ from jmbo.view_modifiers import ViewModifier
 from jmbo.view_modifiers.items import URLPatternItem
 
 from show.models import Show
-from show.view_modifiers.items import CategoryItem
+from show.view_modifiers.items import CategoryRelatedItem
 
 
 class ShowDefaultViewModifier(ViewModifier):
@@ -15,24 +15,31 @@ class ShowDefaultViewModifier(ViewModifier):
         show = Show.objects.get(slug=slug)
         base_url = show.get_absolute_url()
         self.items = [
-            CategoryItem(
+            CategoryRelatedItem(
                 request=request,
                 title=_("All"),
-                get={'name': 'content_type', 'value': 'all'},
+                get={'name': 'category', 'value': 'all'},
                 base_url=base_url,
                 default=True,
                 content_type=None
             )
         ]
-        for obj in Category.objects.all():
+
+        # Find set of categories for all relations on show
+        ids = []
+        for obj in show.get_permitted_related_items(direction='both'):
+            if obj.primary_category:
+                ids.append(obj.primary_category.id)
+        for obj in Category.objects.filter(id__in=ids).order_by('title'):
             self.items.append(
-                CategoryItem(
+                CategoryRelatedItem(
                     request=request,
                     title=obj.title,
                     get={'name': 'category', 'value': obj.slug},
                     base_url=base_url,
                 )
             )
+
         self.items.append(
             URLPatternItem(
                 request,

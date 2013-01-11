@@ -8,6 +8,10 @@ When
     {% endif %}
 {% endwith %}
 
+{% if related_items %}
+    {% listing related_items style='VerticalThumbnail' %}
+{% endif %}
+
 {% if is_about %}
     {% if object.image %}
         <div class="image">
@@ -21,7 +25,7 @@ When
 
 {% if is_polls %}
     {% get_relation_by_type_list 'poll.poll' for object as 'polls' 'both' %}
-    {% listing polls style='Vertical' %}
+    {% listing polls style='VerticalThumbnail' %}
 {% endif %}
 
 {% if is_galleries %}
