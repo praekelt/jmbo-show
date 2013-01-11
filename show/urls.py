@@ -44,9 +44,16 @@ urlpatterns = patterns(
     ),
 
     url(
-        r'^show/entrylist/$', 'show.views.show_entryitem_list',
-        name='show_entryitem_list'
+        r'^contributor/(?P<slug>[\w-]+)/$', 
+        'jmbo.views.object_detail',
+        {},
+        name='showcontributor_object_detail'
     ),
+
+#    url(
+#        r'^show/entrylist/$', 'show.views.show_entryitem_list',
+#        name='show_entryitem_list'
+#    ),
 #    url(
 #        r'^showcontributor/list/(?P<slug>[\w-]+)/$',
 #        'showcontributor_content_list',

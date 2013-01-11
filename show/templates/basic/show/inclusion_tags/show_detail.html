@@ -3,8 +3,10 @@
 When
 {% with object.get_primary_contributors as contributors %}
     {% if contributors %}
-        {% trans "With" %}
-        {% for obj in contributors %}{% if forloop.counter0 %}, {% endif %}<a href="{{ obj.get_absolute_url }}">{{ obj.title }}</a>{% endfor %}
+        <div class="contributors">
+            {% trans "With" %}
+            {% for obj in contributors %}{% if forloop.counter0 %}, {% endif %}<a href="{{ obj.get_absolute_url }}">{{ obj.title }}</a>{% endfor %}
+        </div>
     {% endif %}
 {% endwith %}
 

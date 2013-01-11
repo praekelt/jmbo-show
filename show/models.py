@@ -20,9 +20,17 @@ class ShowContributor(ModelBase):
         related_name='show_contributors',
     )
 
-    #def get_absolute_url(self):
-    #    return reverse('showcontributor_content_list', kwargs={'slug': \
-    #            self.slug})
+    @property
+    def permitted_shows(self):
+        return Show.permitted.filter(contributor__in=[self]).order_by('title')
+
+    @property
+    def permitted_credits(self):
+        return [o for o in self.credits.all() if o.show.is_permitted]
+
+    @property
+    def permitted_related_items(self):
+        return self.get_permitted_related_items(direction='both')
 
 
 class Credit(models.Model):
