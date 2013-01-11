@@ -8,7 +8,7 @@ from jmbo.models import ModelBase
 from jmbo_calendar.models import Event
 
 
-class ShowContributor(ModelBase):
+class Contributor(ModelBase):
     profile = RichTextField(
         help_text='Full profile for this contributor.',
         blank=True,
@@ -35,17 +35,14 @@ class ShowContributor(ModelBase):
 
 class Credit(models.Model):
     contributor = models.ForeignKey(
-        'show.ShowContributor',
+        'show.Contributor',
         related_name='credits'
     )
     show = models.ForeignKey(
         'show.Show',
         related_name='credits'
     )
-    role = models.IntegerField(
-        blank=True,
-        null=True,
-    )
+    credit_option = models.ForeignKey('show.CreditOption')
 
     def __unicode__(self):
         return "%s credit for %s" % (self.contributor.title, self.show.title)
@@ -58,7 +55,7 @@ class Show(ModelBase):
         null=True,
     )
     contributor = models.ManyToManyField(
-        'show.ShowContributor',
+        'show.Contributor',
         through='show.Credit',
     )
 
@@ -69,11 +66,11 @@ class Show(ModelBase):
         of priority). Only permitted contributors are returned.
         """
         primary_credits = []
-        credits = self.credits.exclude(role=None).order_by('role')
+        credits = self.credits.exclude(credit_option=None).order_by('credit_option__role_priority')
         if credits:
-            primary_role = credits[0].role
+            primary_role_priority = credits[0].credit_option.role_priority
             for credit in credits:
-                if credit.role == primary_role:
+                if credit.credit_option.role_priority == primary_role_priority:
                     primary_credits.append(credit)
 
         contributors = []
@@ -83,20 +80,7 @@ class Show(ModelBase):
                 contributors.append(contributor)
 
         return contributors
-
-    def is_contributor_title_in_title(self, contributor):
-        """
-        Checks whether or not a contributors title is already
-        present in the show's title.
-        """
-        return contributor.title.lower().lstrip().rstrip() in \
-                self.title.lower()
-
-
-class RadioShow(Show):
-    """Legacy and unused. Cannot remove."""
-    pass
-
+    
 
 class ShowPreferences(Preferences):
     __module__ = 'preferences.models'
@@ -120,6 +104,9 @@ class CreditOption(models.Model):
 being more important.""",
     )
 
+    def __unicode__(self):
+        return self.role_name
+
 
 class Appearance(models.Model):
     event = models.ForeignKey(
@@ -127,6 +114,6 @@ class Appearance(models.Model):
         related_name='appearances'
     )
     show_contributor = models.ForeignKey(
-        ShowContributor,
+        Contributor,
         related_name='appearances'
     )

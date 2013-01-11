@@ -5,7 +5,7 @@ from preferences import preferences
 from jmbo.admin import ModelBaseAdmin
 
 from show.models import Appearance, Credit, CreditOption, Show, \
-    ShowContributor, ShowPreferences
+    Contributor, ShowPreferences
 
 
 class CreditOptionInline(admin.TabularInline):
@@ -17,12 +17,12 @@ class ShowPreferencesAdmin(admin.ModelAdmin):
 
 
 class CreditInlineAdminForm(forms.ModelForm):
-    role = forms.ChoiceField(label='Role')
+    #role = forms.ChoiceField(label='Role')
 
     class Meta:
         model = Credit
 
-    def __init__(self, *args, **kwargs):
+    def x__init__(self, *args, **kwargs):
         """
         Set role choices to credit options
         """
@@ -50,10 +50,10 @@ class AppearanceInline(admin.TabularInline):
     model = Appearance
 
 
-class ShowContributorAdmin(ModelBaseAdmin):
+class ContributorAdmin(ModelBaseAdmin):
     inlines = [AppearanceInline]
 
 
 admin.site.register(Show, ShowAdmin)
-admin.site.register(ShowContributor, ShowContributorAdmin)
+admin.site.register(Contributor, ContributorAdmin)
 admin.site.register(ShowPreferences, ShowPreferencesAdmin)
