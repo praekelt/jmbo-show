@@ -1,10 +1,11 @@
 from django import forms
 from django.contrib import admin
 
-from jmbo.admin import ModelBaseAdmin
 from preferences import preferences
-from show.models import Appearance, Credit, CreditOption, RadioShow, \
-        ShowContributor, ShowPreferences
+from jmbo.admin import ModelBaseAdmin
+
+from show.models import Appearance, Credit, CreditOption, Show, \
+    ShowContributor, ShowPreferences
 
 
 class CreditOptionInline(admin.TabularInline):
@@ -12,15 +13,11 @@ class CreditOptionInline(admin.TabularInline):
 
 
 class ShowPreferencesAdmin(admin.ModelAdmin):
-    inlines = [
-        CreditOptionInline,
-    ]
+    inlines = [CreditOptionInline]
 
 
 class CreditInlineAdminForm(forms.ModelForm):
-    role = forms.ChoiceField(
-        label='Role',
-    )
+    role = forms.ChoiceField(label='Role')
 
     class Meta:
         model = Credit
@@ -45,10 +42,8 @@ class CreditInline(admin.TabularInline):
     model = Credit
 
 
-class RadioShowAdmin(ModelBaseAdmin):
-    inlines = (
-        CreditInline,
-    )
+class ShowAdmin(ModelBaseAdmin):
+    inlines = [CreditInline]
 
 
 class AppearanceInline(admin.TabularInline):
@@ -56,10 +51,9 @@ class AppearanceInline(admin.TabularInline):
 
 
 class ShowContributorAdmin(ModelBaseAdmin):
-    inlines = (
-        AppearanceInline,
-    )
+    inlines = [AppearanceInline]
 
-admin.site.register(RadioShow, RadioShowAdmin)
+
+admin.site.register(Show, ShowAdmin)
 admin.site.register(ShowContributor, ShowContributorAdmin)
 admin.site.register(ShowPreferences, ShowPreferencesAdmin)

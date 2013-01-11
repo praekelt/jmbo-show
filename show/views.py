@@ -1,13 +1,13 @@
 from django.core.urlresolvers import reverse
 
-from cal.models import EntryItem
-from cal.view_modifiers import EntriesByWeekdaysViewModifier
+#from cal.models import EntryItem
+#from cal.view_modifiers import EntriesByWeekdaysViewModifier
 from jmbo.generic.views import GenericObjectDetail, GenericObjectList, \
         GenericForm
 from jmbo.models import ModelBase
-from event.models import Event
+from jmbo_calendar.models import Event
 from show.forms import ShowContributorContactForm
-from show.models import Appearance, RadioShow, ShowContributor
+from show.models import Appearance, Show, ShowContributor
 from show.view_modifiers import ShowContributorViewModifier
 
 
@@ -22,12 +22,12 @@ class ShowContributerContentURL(object):
             return self
 
 
-class RadioShowEntryItemList(GenericObjectList):
+class ShowEntryItemList(GenericObjectList):
     def get_extra_context(self, *args, **kwargs):
         return  {'title': 'DJS & Shows'}
 
     def get_template_name(self, *args, **kwargs):
-        return 'show/radioshow_entryitem_list.html'
+        return 'show/show_entryitem_list.html'
 
     def get_view_modifier(self, request, *args, **kwargs):
         return  EntriesByWeekdaysViewModifier(
@@ -37,11 +37,12 @@ class RadioShowEntryItemList(GenericObjectList):
         )
 
     def get_queryset(self, *args, **kwargs):
-        return EntryItem.permitted.by_model(RadioShow).order_by('start')
+        return EntryItem.permitted.by_model(Show).order_by('start')
 
-radioshow_entryitem_list = RadioShowEntryItemList()
+show_entryitem_list = ShowEntryItemList()
 
 
+'''
 class ShowContributorContentList(GenericObjectList):
     def get_extra_context(self, *args, **kwargs):
         slug = kwargs['slug']
@@ -203,3 +204,4 @@ class ShowContributorContact(GenericForm):
         )
 
 showcontributor_contact = ShowContributorContact()
+'''

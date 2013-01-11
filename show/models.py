@@ -3,12 +3,11 @@ from django.core.urlresolvers import reverse
 from django.db import models
 
 from ckeditor.fields import RichTextField
-from event.models import Event
-from jmbo.models import ModelBase
 from preferences.models import Preferences
+from jmbo.models import ModelBase
+from jmbo_calendar.models import Event
 
 
-# Content Models
 class ShowContributor(ModelBase):
     profile = RichTextField(
         help_text='Full profile for this contributor.',
@@ -21,13 +20,9 @@ class ShowContributor(ModelBase):
         related_name='show_contributors',
     )
 
-    class Meta:
-        verbose_name = 'Show contributor'
-        verbose_name_plural = 'Show contributors'
-
-    def get_absolute_url(self):
-        return reverse('showcontributor_content_list', kwargs={'slug': \
-                self.slug})
+    #def get_absolute_url(self):
+    #    return reverse('showcontributor_content_list', kwargs={'slug': \
+    #            self.slug})
 
 
 class Credit(models.Model):
@@ -62,8 +57,8 @@ class Show(ModelBase):
     def get_primary_contributors(self):
         """
         Returns a list of primary contributors, with primary being defined
-        as those contributors that have the highest role assigned(in terms
-        of priority). Only premitted contributors are returned.
+        as those contributors that have the highest role assigned (in terms
+        of priority). Only permitted contributors are returned.
         """
         primary_credits = []
         credits = self.credits.exclude(role=None).order_by('role')
@@ -91,14 +86,14 @@ class Show(ModelBase):
 
 
 class RadioShow(Show):
+    """Legacy and unused. Cannot remove."""
     pass
 
 
-# Preferences Models
 class ShowPreferences(Preferences):
     __module__ = 'preferences.models'
 
-    class Meta():
+    class Meta:
         verbose_name = 'Show preferences'
         verbose_name_plural = 'Show preferences'
 
@@ -113,8 +108,8 @@ class CreditOption(models.Model):
     role_priority = models.IntegerField(
         blank=True,
         null=True,
-        help_text="The priority assigned to this role, with lower values\
-being more importent.",
+        help_text="""The priority assigned to this role, with lower values \
+being more important.""",
     )
 
 

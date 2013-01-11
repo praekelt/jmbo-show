@@ -11,14 +11,12 @@ setup(
     url='http://github.com/praekelt/jmbo-show',
     packages = find_packages(),
     install_requires = [
-        'django-ckeditor',
-        'jmbo',
-        'jmbo-event',
+        'jmbo-foundry>=1.1',
     ],
     tests_require=[
-        'django-setuptest',
+        'django-setuptest>=0.1.2',
     ],
-    test_suite='setuptest.SetupTestSuite',
+    test_suite='setuptest.setuptest.SetupTestSuite',
     include_package_data=True,
     classifiers = [
         "Programming Language :: Python",

@@ -1,6 +1,10 @@
 Changelog
 =========
 
+next
+----
+#. Refactor to be dependant on `jmbo-foundry`.
+
 0.0.6
 -----
 
