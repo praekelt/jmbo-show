@@ -4,7 +4,7 @@ from django.contrib import admin
 from preferences import preferences
 from jmbo.admin import ModelBaseAdmin, ModelBaseAdminForm
 
-from show.models import Appearance, Credit, CreditOption, Show, \
+from show.models import Appearance, Credit, CreditOption, RadioShow, \
     Contributor, ShowPreferences
 
 
@@ -48,9 +48,7 @@ class ShowAdminForm(ModelBaseAdminForm):
 
 class ShowAdmin(ModelBaseAdmin):
     form = ShowAdminForm
-    list_display = (
-        'title', 'start', 'end', 'next', 'repeat', 'repeat_until', 'location'
-    )
+    list_display =  ModelBaseAdmin.list_display + ('start', 'end', 'next', 'repeat', 'repeat_until')
     list_filter = ('repeat',)
     inlines = [CreditInline]
 
@@ -63,6 +61,6 @@ class ContributorAdmin(ModelBaseAdmin):
     inlines = [AppearanceInline]
 
 
-admin.site.register(Show, ShowAdmin)
+admin.site.register(RadioShow, ShowAdmin)
 admin.site.register(Contributor, ContributorAdmin)
 admin.site.register(ShowPreferences, ShowPreferencesAdmin)

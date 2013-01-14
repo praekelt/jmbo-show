@@ -1,3 +1,5 @@
+from django.template import RequestContext
+from django.shortcuts import render_to_response
 from django.core.urlresolvers import reverse
 
 #from cal.models import EntryItem
@@ -7,8 +9,18 @@ from jmbo.generic.views import GenericObjectDetail, GenericObjectList, \
 from jmbo.models import ModelBase
 from jmbo_calendar.models import Event
 from show.forms import ShowContributorContactForm
-from show.models import Appearance, Show, ShowContributor
+from show.models import Appearance, Show, Contributor
 from show.view_modifiers import ShowContributorViewModifier
+
+
+def schedule(request):
+    # The template requires querysets so no way to do one query
+    di = {
+        'weekdays': Show.permitted.filter(repeat='weekdays').order_by('start'), 
+        'weekends': Show.permitted.filter(repeat='weekends').order_by('start'), 
+    }
+    extra = dict(intervals=di)
+    return render_to_response('show/schedule.html', extra, context_instance=RequestContext(request))
 
 
 class ShowContributerContentURL(object):

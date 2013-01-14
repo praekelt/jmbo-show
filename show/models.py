@@ -51,6 +51,8 @@ class Credit(models.Model):
 
 
 class Show(ModelBase):
+    """Show is intended to be a superclass but cannot be marked abstract due 
+    to the many-to-many fields."""
     content = RichTextField(
         help_text="Full article detailing this show.",
         blank=True,
@@ -69,10 +71,13 @@ class Show(ModelBase):
             ('daily', 'Daily'),
             ('weekdays', 'Weekdays'),
             ('weekends', 'Weekends'),
+            ('saturdays', 'Saturdays'),
+            ('sundays', 'Sundays'),
             ('weekly', 'Weekly'),
             ('monthly_by_day_of_month', 'Monthly By Day Of Month'),
         ),
         default='does_not_repeat',
+        db_index=True,
     )
     repeat_until = models.DateField(
         blank=True,
@@ -147,6 +152,7 @@ class Show(ModelBase):
             elif self.repeat == 'weekends':
                 date = date + timedelta(days=5 - weekday) \
                     if (0 <= weekday <= 4) else date
+            # todo: saturday and sunday
             else:  # must be weekly
                 date = date + timedelta(days=self.start.weekday() - weekday) \
                     if self.start.weekday() >= weekday else \
@@ -180,6 +186,10 @@ class Show(ModelBase):
             self.repeat_until = None
 
         super(Show, self).save(*args, **kwargs)
+
+
+class RadioShow(Show):
+    pass
 
 
 class ShowPreferences(Preferences):

@@ -1,46 +1,53 @@
 from django.conf.urls.defaults import patterns, url
 
-from show.view_modifiers import ShowDefaultViewModifier
+from show.view_modifiers import RadioShowDefaultViewModifier
 
 
 urlpatterns = patterns(
     '',   
 
     url(
-        r'^(?P<slug>[\w-]+)/$', 
-        'jmbo.views.object_detail',
-        {'view_modifier':ShowDefaultViewModifier},
-        name='show_object_detail'
+        r'^schedule/$', 
+        'show.views.schedule',
+        {},
+        name='show-schedule'
     ),
 
     url(
-        r'^(?P<slug>[\w-]+)/about/$', 
+        r'^radio/(?P<slug>[\w-]+)/$', 
+        'jmbo.views.object_detail',
+        {'view_modifier':RadioShowDefaultViewModifier},
+        name='radioshow_object_detail'
+    ),
+
+    url(
+        r'^radio/(?P<slug>[\w-]+)/about/$', 
         'jmbo.views.object_detail',
         {
-            'view_modifier':ShowDefaultViewModifier,
+            'view_modifier':RadioShowDefaultViewModifier,
             'extra_context':{'is_about':True}
         },
-        name='show-about'
+        name='radio-show-about'
     ),
 
     url(
-        r'^(?P<slug>[\w-]+)/polls/$', 
+        r'^radio/(?P<slug>[\w-]+)/polls/$', 
         'jmbo.views.object_detail',
         {
-            'view_modifier':ShowDefaultViewModifier,
+            'view_modifier':RadioShowDefaultViewModifier,
             'extra_context':{'is_polls':True}
         },
-        name='show-polls'
+        name='radio-show-polls'
     ),
 
     url(
-        r'^(?P<slug>[\w-]+)/galleries/$', 
+        r'^radio/(?P<slug>[\w-]+)/galleries/$', 
         'jmbo.views.object_detail',
         {
-            'view_modifier':ShowDefaultViewModifier,
+            'view_modifier':RadioShowDefaultViewModifier,
             'extra_context':{'is_galleries':True}
         },
-        name='show-galleries'
+        name='radio-show-galleries'
     ),
 
     url(
@@ -50,6 +57,7 @@ urlpatterns = patterns(
         name='contributor_object_detail'
     ),
 
+    
 #    url(
 #        r'^show/entrylist/$', 'show.views.show_entryitem_list',
 #        name='show_entryitem_list'

@@ -9,7 +9,9 @@ from show.models import Show
 from show.view_modifiers.items import CategoryRelatedItem
 
 
-class ShowDefaultViewModifier(ViewModifier):
+class BaseShowDefaultViewModifier(ViewModifier):
+
+    prefix = ''
 
     def __init__(self, request, slug, *args, **kwargs):
         show = Show.objects.get(slug=slug)
@@ -44,8 +46,8 @@ class ShowDefaultViewModifier(ViewModifier):
             URLPatternItem(
                 request,
                 title=_("Polls"),
-                path=reverse('show-polls', kwargs={'slug': slug}),
-                matching_pattern_names=['show-polls'],
+                path=reverse(self.prefix + 'show-polls', kwargs={'slug': slug}),
+                matching_pattern_names=[self.prefix + 'show-polls'],
                 default=False
             ),
         )
@@ -53,8 +55,8 @@ class ShowDefaultViewModifier(ViewModifier):
             URLPatternItem(
                 request,
                 title=_("Galleries"),
-                path=reverse('show-galleries', kwargs={'slug': slug}),
-                matching_pattern_names=['show-galleries'],
+                path=reverse(self.prefix + 'show-galleries', kwargs={'slug': slug}),
+                matching_pattern_names=[self.prefix + 'show-galleries'],
                 default=False
             ),
         )
@@ -62,16 +64,20 @@ class ShowDefaultViewModifier(ViewModifier):
             URLPatternItem(
                 request,
                 title=_("About"),
-                path=reverse('show-about', kwargs={'slug': slug}),
-                matching_pattern_names=['show-about'],
+                path=reverse(self.prefix + 'show-about', kwargs={'slug': slug}),
+                matching_pattern_names=[self.prefix + 'show-about'],
                 default=False
             ),
         )
-        super(ShowDefaultViewModifier, self).__init__(
+        super(BaseShowDefaultViewModifier, self).__init__(
             request,
             *args,
             **kwargs
         )
+
+
+class RadioShowDefaultViewModifier(BaseShowDefaultViewModifier):
+    prefix = 'radio-'
 
 
 class ShowContributorViewModifier(ViewModifier):
