@@ -18,5 +18,19 @@
         </div>
     {% endif %}
 
+    {% if intervals.saturdays %}
+        <div class="interval">
+            <div class="title">{% trans "Saturday line-up" %}</div>
+            {% listing intervals.saturdays style='Horizontal' %}
+        </div>
+    {% endif %}
+    
+    {% if intervals.sundays %}
+        <div class="interval">
+            <div class="title">{% trans "Sunday line-up" %}</div>
+            {% listing intervals.sundays style='Horizontal' %}
+        </div>
+    {% endif %}
+
 </div>
 {% endblock %}
