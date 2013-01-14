@@ -2,7 +2,7 @@ from django import forms
 from django.contrib import admin
 
 from preferences import preferences
-from jmbo.admin import ModelBaseAdmin
+from jmbo.admin import ModelBaseAdmin, ModelBaseAdminForm
 
 from show.models import Appearance, Credit, CreditOption, Show, \
     Contributor, ShowPreferences
@@ -17,32 +17,41 @@ class ShowPreferencesAdmin(admin.ModelAdmin):
 
 
 class CreditInlineAdminForm(forms.ModelForm):
-    #role = forms.ChoiceField(label='Role')
 
     class Meta:
         model = Credit
-
-    def x__init__(self, *args, **kwargs):
-        """
-        Set role choices to credit options
-        """
-        role_choices = []
-        credit_options = preferences.ShowPreferences.creditoption_set.all()
-        for credit_option in credit_options:
-            role_choices.append((credit_option.role_priority, \
-                    credit_option.role_name))
-
-        self.declared_fields['role'].choices = [('', '---------'), ] + \
-                role_choices
-        super(CreditInlineAdminForm, self).__init__(*args, **kwargs)
-
+    
 
 class CreditInline(admin.TabularInline):
     form = CreditInlineAdminForm
     model = Credit
 
 
+class ShowAdminForm(ModelBaseAdminForm):
+
+    def clean(self, *args, **kwargs):
+        data = super(ShowAdminForm, self).clean(*args, **kwargs)
+        # check that the start is earlier than the end
+        if 'start' in data and 'end' in data and \
+            data['start'] and data['end'] and data['start'] >= data['end']:
+            raise forms.ValidationError('''The show's start date needs
+                    to be earlier than its end date''')
+        # check that repeat_until is after the end of the first show rep
+        if 'repeat_until' in data and 'end' in data and \
+            data['repeat_until'] and data['end'] and \
+                data['repeat_until'] < data['end'].date():
+            raise forms.ValidationError('''An show cannot have a repeat
+                    cutoff earlier than the actual show''')
+
+        return data
+
+
 class ShowAdmin(ModelBaseAdmin):
+    form = ShowAdminForm
+    list_display = (
+        'title', 'start', 'end', 'next', 'repeat', 'repeat_until', 'location'
+    )
+    list_filter = ('repeat',)
     inlines = [CreditInline]
 
 

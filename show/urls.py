@@ -47,7 +47,7 @@ urlpatterns = patterns(
         r'^contributor/(?P<slug>[\w-]+)/$', 
         'jmbo.views.object_detail',
         {},
-        name='showcontributor_object_detail'
+        name='contributor_object_detail'
     ),
 
 #    url(

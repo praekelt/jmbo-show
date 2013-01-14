@@ -1,6 +1,21 @@
-{% load i18n foundry_tags show_tags %}
+{% load i18n humanize foundry_tags show_tags %}
 
-When
+<div class="when">
+    {% if object.repeat == 'does_not_repeat' %}
+        {% blocktrans with start=object.start|date:"j F Y H:i" end=object.end|date:"j F Y H:i" %}{{ start }} to {{ end }}{% endblocktrans %}
+    {% elif object.repeat == 'daily' %}
+        {% blocktrans with start=object.start|date:"H:i" end=object.end|date:"H:i" %}Daily from {{ start }} to {{ end }}{% endblocktrans %}
+    {% elif object.repeat == 'weekdays' %}
+        {% blocktrans with start=object.start|date:"H:i" end=object.end|date:"H:i" %}Weekdays from {{ start }} to {{ end }}{% endblocktrans %}
+    {% elif object.repeat == 'weekends' %}
+        {% blocktrans with start=object.start|date:"H:i" end=object.end|date:"H:i" %}Weekends from {{ start }} to {{ end }}{% endblocktrans %}
+    {% elif object.repeat == 'weekdays' %}
+        {% blocktrans with start=object.start|date:"H:i" end=object.end|date:"H:i" weekday=object.start|date:"l" %}Every {{ weekday }} from {{ start }} to {{ end }}{% endblocktrans %}
+    {% elif object.repeat == 'monthly_by_day_of_month' %}
+        {% blocktrans with day=object.start|date:"j" %}The {{ day }}th of every month{% endblocktrans %}
+    {% endif %}
+</div>
+
 {% with object.get_primary_contributors as contributors %}
     {% if contributors %}
         <div class="contributors">
@@ -11,7 +26,9 @@ When
 {% endwith %}
 
 {% if related_items %}
-    {% listing related_items style='VerticalThumbnail' %}
+    <div class="related">
+        {% listing related_items style='VerticalThumbnail' %}
+    </div>
 {% endif %}
 
 {% if is_about %}
@@ -27,10 +44,14 @@ When
 
 {% if is_polls %}
     {% get_relation_by_type_list 'poll.poll' for object as 'polls' 'both' %}
-    {% listing polls style='VerticalThumbnail' %}
+    <div class="polls">
+        {% listing polls style='VerticalThumbnail' %}
+    </div>
 {% endif %}
 
 {% if is_galleries %}
     {% get_relation_by_type_list 'gallery.gallery' for object as 'galleries' 'both' %}
-    {% listing galleries style='VerticalThumbnail' %}
+    <div class="galleries">
+        {% listing galleries style='VerticalThumbnail' %}
+    </div>
 {% endif %}

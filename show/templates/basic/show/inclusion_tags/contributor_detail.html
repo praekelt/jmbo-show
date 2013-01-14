@@ -15,7 +15,9 @@
 
 {% with object.permitted_related_items as items %}
     {% if items %}
-        <div class="recent">{% trans "Recent updates" %}</div>
-        {% listing items style='VerticalThumbnail' %}        
+        <div class="recent">
+            <div class="title">{% trans "Recent updates" %}</div>
+            {% listing items style='VerticalThumbnail' %}
+        </div>
     {% endif %}
 {% endwith %}
