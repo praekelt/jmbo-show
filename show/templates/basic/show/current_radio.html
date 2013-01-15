@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% load i18n jmbo_inclusion_tags %}
+
+{% block content %}
+<div class="show-current-radio">
+
+{% if object %}
+    <div class="title">{% trans "On the air" %}: {{ object.title }}</div>
+    {% render_object object "detail" %}
+{% else %}
+    {% trans "No show is currently on air" %}
+{% endif %}
+
+</div>
+{% endblock %}

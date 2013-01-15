@@ -1,34 +1,66 @@
 from django.conf.urls.defaults import patterns, url
 
+from show.view_modifiers import RadioShowDefaultViewModifier
+
+
 urlpatterns = patterns(
-    'show.views',
+    '',   
+
     url(
-        r'^radioshow/entrylist/$', 'radioshow_entryitem_list',
-        name='radioshow_entryitem_list'
+        r'^schedule/$', 
+        'show.views.schedule',
+        {},
+        name='show-schedule'
     ),
+
     url(
-        r'^showcontributor/list/(?P<slug>[\w-]+)/$',
-        'showcontributor_content_list',
-        name='showcontributor_content_list'
+        r'^current/radio/$', 
+        'show.views.current_radio',
+        {},
+        name='show-current-radio'
     ),
+
     url(
-        r'^showcontributor/appearance/(?P<slug>[\w-]+)/$',
-        'showcontributor_appearance_list',
-        name='showcontributor_appearance_list'
+        r'^radio/(?P<slug>[\w-]+)/$', 
+        'jmbo.views.object_detail',
+        {'template_name': 'show/show_detail.html', 'view_modifier': RadioShowDefaultViewModifier},
+        name='radioshow_object_detail'
     ),
+
     url(
-        r'^showcontributor/(?P<slug>[\w-]+)/$',
-        'showcontributor_detail',
-        name='showcontributor_detail'
+        r'^radio/(?P<slug>[\w-]+)/about/$', 
+        'jmbo.views.object_detail',
+        {
+            'view_modifier': RadioShowDefaultViewModifier,
+            'extra_context': {'is_about': True}
+        },
+        name='radio-show-about'
     ),
+
     url(
-        r'^showcontributor/content/(?P<slug>[\w-]+)/$',
-        'showcontributor_content_detail',
-        name='showcontributor_content_detail'
+        r'^radio/(?P<slug>[\w-]+)/polls/$', 
+        'jmbo.views.object_detail',
+        {
+            'view_modifier': RadioShowDefaultViewModifier,
+            'extra_context': {'is_polls': True}
+        },
+        name='radio-show-polls'
     ),
+
     url(
-        r'^showcontributor/contact/(?P<slug>[\w-]+)/$',
-        'showcontributor_contact',
-        name='showcontributor_contact'
+        r'^radio/(?P<slug>[\w-]+)/galleries/$', 
+        'jmbo.views.object_detail',
+        {
+            'view_modifier': RadioShowDefaultViewModifier,
+            'extra_context': {'is_galleries': True}
+        },
+        name='radio-show-galleries'
+    ),
+
+    url(
+        r'^contributor/(?P<slug>[\w-]+)/$', 
+        'jmbo.views.object_detail',
+        {},
+        name='contributor_object_detail'
     ),
 )

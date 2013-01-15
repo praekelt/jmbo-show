@@ -1,0 +1,23 @@
+{% load i18n foundry_tags %}
+
+{% with object.permitted_credits as credits %}
+    {% if credits %}
+        <div class="credits">
+            {% for obj in credits %}{% if forloop.counter0 %}, {% endif %}{{ obj.role }}<a href="{{ obj.show.get_absolute_url }}">{{ obj.show.title }}</a>{% endfor %}
+        </div>
+    {% endif %}
+{% endwith %}
+
+<div class="profile">
+    {{ object.profile|safe }}
+</div>
+
+
+{% with object.permitted_related_items as items %}
+    {% if items %}
+        <div class="recent">
+            <div class="title">{% trans "Recent updates" %}</div>
+            {% listing items style='VerticalThumbnail' %}
+        </div>
+    {% endif %}
+{% endwith %}
