@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% load i18n foundry_tags %}
+
+{% block content %}
+<div class="show-schedule">
+
+    {% if intervals.weekdays %}
+        <div class="interval">
+            <div class="title">{% trans "Weekday line-up" %}</div>
+            {% listing intervals.weekdays style='Horizontal' %}
+        </div>
+    {% endif %}
+
+    {% if intervals.weekends %}
+        <div class="interval">
+            <div class="title">{% trans "Weekends line-up" %}</div>
+            {% listing intervals.weekends style='Horizontal' %}
+        </div>
+    {% endif %}
+
+    {% if intervals.saturdays %}
+        <div class="interval">
+            <div class="title">{% trans "Saturday line-up" %}</div>
+            {% listing intervals.saturdays style='Horizontal' %}
+        </div>
+    {% endif %}
+    
+    {% if intervals.sundays %}
+        <div class="interval">
+            <div class="title">{% trans "Sunday line-up" %}</div>
+            {% listing intervals.sundays style='Horizontal' %}
+        </div>
+    {% endif %}
+
+</div>
+{% endblock %}

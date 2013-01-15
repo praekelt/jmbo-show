@@ -1,6 +1,10 @@
 Changelog
 =========
 
+next
+----
+#. Refactor to be dependant on `jmbo-foundry`. This refactor is backwards incompatible, but since jmbo-show is not in widespread use yet it is not an issue.
+
 0.0.6
 -----
 
