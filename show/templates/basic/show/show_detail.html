@@ -1,0 +1,20 @@
+{% extends "jmbo/modelbase_detail.html" %}
+{% comment %}
+1. Move view_modifier below object_header.
+{% endcomment %}
+
+{% load jmbo_inclusion_tags %} 
+
+{% block content %}
+    <div class="page section_news object-detail {{ object.class_name.lower }}-detail">
+
+        {% with object.as_leaf_class as object %}
+            {% object_header object %}         
+            {% view_modifier view_modifier %}
+            {% render_object object "detail" %}
+            {% object_footer object %}
+            {% object_comments object %}
+        {% endwith %}
+
+	</div>
+{% endblock %}

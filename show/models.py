@@ -1,3 +1,5 @@
+from datetime import datetime, timedelta
+
 from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.db import models
@@ -62,8 +64,16 @@ class Show(ModelBase):
         'show.Contributor',
         through='show.Credit',
     )
-    start = models.DateTimeField(db_index=True)
-    end = models.DateTimeField(db_index=True)
+    start = models.DateTimeField(
+        db_index=True, 
+        help_text="""If only the time of day is applicable then set the day \
+to today. It will be ignored."""
+    )
+    end = models.DateTimeField(
+        db_index=True,
+        help_text="""If only the time of day is applicable then set the day \
+to today. It will be ignored."""
+    )
     repeat = models.CharField(
         max_length=64,
         choices=(

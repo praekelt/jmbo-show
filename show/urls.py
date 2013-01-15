@@ -16,7 +16,7 @@ urlpatterns = patterns(
     url(
         r'^radio/(?P<slug>[\w-]+)/$', 
         'jmbo.views.object_detail',
-        {'view_modifier':RadioShowDefaultViewModifier},
+        {'template_name': 'show/show_detail.html', 'view_modifier': RadioShowDefaultViewModifier},
         name='radioshow_object_detail'
     ),
 
@@ -24,8 +24,8 @@ urlpatterns = patterns(
         r'^radio/(?P<slug>[\w-]+)/about/$', 
         'jmbo.views.object_detail',
         {
-            'view_modifier':RadioShowDefaultViewModifier,
-            'extra_context':{'is_about':True}
+            'view_modifier': RadioShowDefaultViewModifier,
+            'extra_context': {'is_about': True}
         },
         name='radio-show-about'
     ),
@@ -34,8 +34,8 @@ urlpatterns = patterns(
         r'^radio/(?P<slug>[\w-]+)/polls/$', 
         'jmbo.views.object_detail',
         {
-            'view_modifier':RadioShowDefaultViewModifier,
-            'extra_context':{'is_polls':True}
+            'view_modifier': RadioShowDefaultViewModifier,
+            'extra_context': {'is_polls': True}
         },
         name='radio-show-polls'
     ),
@@ -44,8 +44,8 @@ urlpatterns = patterns(
         r'^radio/(?P<slug>[\w-]+)/galleries/$', 
         'jmbo.views.object_detail',
         {
-            'view_modifier':RadioShowDefaultViewModifier,
-            'extra_context':{'is_galleries':True}
+            'view_modifier': RadioShowDefaultViewModifier,
+            'extra_context': {'is_galleries': True}
         },
         name='radio-show-galleries'
     ),
@@ -56,35 +56,4 @@ urlpatterns = patterns(
         {},
         name='contributor_object_detail'
     ),
-
-    
-#    url(
-#        r'^show/entrylist/$', 'show.views.show_entryitem_list',
-#        name='show_entryitem_list'
-#    ),
-#    url(
-#        r'^showcontributor/list/(?P<slug>[\w-]+)/$',
-#        'showcontributor_content_list',
-#        name='showcontributor_content_list'
-#    ),
-#    url(
-#        r'^showcontributor/appearance/(?P<slug>[\w-]+)/$',
-#        'showcontributor_appearance_list',
-#        name='showcontributor_appearance_list'
-#    ),
-#    url(
-#        r'^showcontributor/(?P<slug>[\w-]+)/$',
-#        'showcontributor_detail',
-#        name='showcontributor_detail'
-#    ),
-#    url(
-#        r'^showcontributor/content/(?P<slug>[\w-]+)/$',
-#        'showcontributor_content_detail',
-#        name='showcontributor_content_detail'
-#    ),
-#    url(
-#        r'^showcontributor/contact/(?P<slug>[\w-]+)/$',
-#        'showcontributor_contact',
-#        name='showcontributor_contact'
-#    ),
 )
