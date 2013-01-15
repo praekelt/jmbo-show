@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='jmbo-show',
-    version='0.0.7',
+    version='0.2',
     description='Jmbo show app.',
     long_description = open('README.rst', 'r').read() + open('AUTHORS.rst', 'r').read() + open('CHANGELOG.rst', 'r').read(),
     author='Praekelt Foundation',
@@ -11,7 +11,7 @@ setup(
     url='http://github.com/praekelt/jmbo-show',
     packages = find_packages(),
     install_requires = [
-        'jmbo-foundry>=1.1',
+        'jmbo-foundry>=1.1.2',
     ],
     tests_require=[
         'django-setuptest>=0.1.2',
