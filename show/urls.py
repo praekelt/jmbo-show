@@ -14,6 +14,13 @@ urlpatterns = patterns(
     ),
 
     url(
+        r'^current/radio/$', 
+        'show.views.current_radio',
+        {},
+        name='show-current-radio'
+    ),
+
+    url(
         r'^radio/(?P<slug>[\w-]+)/$', 
         'jmbo.views.object_detail',
         {'template_name': 'show/show_detail.html', 'view_modifier': RadioShowDefaultViewModifier},
