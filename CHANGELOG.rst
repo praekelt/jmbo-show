@@ -1,9 +1,9 @@
 Changelog
 =========
 
-next
-----
-#. Missing imports added.
+0.2.1
+-----
+#. Missing imports added. Shows can now be set to be on Saturday or Sunday.
 
 0.2
 ---
