@@ -18,7 +18,12 @@ def get_current_next_permitted_show(klass=Show, now=None):
     today_weekday = now.weekday()
     yesterday_weekday = (today_weekday - 1) % 7
     tomorrow_weekday = (today_weekday + 1) % 7
-    shows = klass.permitted.filter().order_by('start')
+
+    # Get shows but do a manual order on start time
+    def mysort(a, b):
+        return cmp(a.start.time(), b.start.time())
+    shows = [o for o in klass.permitted.filter().order_by('start')]
+    shows.sort(mysort)
 
     # First pass groups shows for today and tomorrow
     slots = {'yesterday': [], 'today': [], 'tomorrow': []}

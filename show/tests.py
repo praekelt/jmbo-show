@@ -35,8 +35,8 @@ class TestCase(unittest.TestCase):
 
         lebo_m = {
             'title': 'Lebo M', 
-            'start': monday.replace(hour=3),
-            'end': monday.replace(hour=6),
+            'start': tuesday.replace(hour=3),
+            'end': tuesday.replace(hour=6),
             'repeat': 'weekends'
         }
 
@@ -49,15 +49,15 @@ class TestCase(unittest.TestCase):
 
         the_breakfast_stack = {
             'title': 'The Breakfast Stack', 
-            'start': monday.replace(hour=6),
-            'end': monday.replace(hour=9),
+            'start': wednesday.replace(hour=6),
+            'end': wednesday.replace(hour=9),
             'repeat': 'weekdays'
         }
 
         the_workzone_part_1 = {
             'title': 'The Workzone Part 1', 
-            'start': monday.replace(hour=9),
-            'end': monday.replace(hour=12),
+            'start': tuesday.replace(hour=9),
+            'end': tuesday.replace(hour=12),
             'repeat': 'weekdays'
         }
 
@@ -91,8 +91,8 @@ class TestCase(unittest.TestCase):
 
         the_late_night_show = {
             'title': 'The Late Night Show', 
-            'start': monday.replace(hour=23),
-            'end': tuesday.replace(hour=2),
+            'start': wednesday.replace(hour=23),
+            'end': wednesday.replace(hour=2),
             'repeat': 'weekdays'
         }
 
