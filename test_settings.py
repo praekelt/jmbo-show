@@ -1,14 +1,13 @@
-DATABASE_ENGINE = 'sqlite3'
+from foundry.settings import *
 
-INSTALLED_APPS = [
-    'django.contrib.contenttypes',
-    'django.contrib.sites',
-    'category',
-    'jmbo',
-    'photologue',
-    'publisher',
-    'secretballot',
-    'show',
-]
 
-CKEDITOR_MEDIA_PREFIX = '/media/ckeditor/'
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.contrib.gis.db.backends.spatialite',
+        'NAME': 'test_show.db',
+        'USER': '',
+        'PASSWORD': '',
+        'HOST': '',
+        'PORT': '',
+    }
+}
