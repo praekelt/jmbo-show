@@ -1,3 +1,4 @@
+from django.core.cache import cache
 from django.utils import timezone
 
 from show.models import Show
@@ -11,6 +12,16 @@ def get_current_next_permitted_show(klass=Show, now=None):
     # using the ORM. Or use time fields instead of date fields for a future
     # release. For now it is safe to iterate over all shows since there are not
     # many show objects.
+
+    # Query cache if now not supplied
+    use_cache = False
+    if now is None:
+        use_cache = True
+        klass_name = klass.__name__
+        a = cache.get('jmbo_show_current_show_%s' % klass_name)
+        b = cache.get('jmbo_show_next_show_%s' % klass_name)
+        if a and b:
+            return a, b
 
     if now is None:
         now = timezone.now()
@@ -113,6 +124,11 @@ def get_current_next_permitted_show(klass=Show, now=None):
     # Use tomorrow's first show if next show not set
     if next_show is None:        
         next_show = slots['tomorrow'] and slots['tomorrow'][0] or None
+
+    # Cache
+    if use_cache:
+        cache.set('jmbo_show_current_show_%s' % klass_name, current_show, 60)
+        cache.set('jmbo_show_next_show_%s' % klass_name, next_show, 60)
 
     return current_show, next_show
 
