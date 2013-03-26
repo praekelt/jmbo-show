@@ -18,10 +18,13 @@ def get_current_next_permitted_show(klass=Show, now=None):
     if now is None:
         use_cache = True
         klass_name = klass.__name__
-        a = cache.get('jmbo_show_current_show_%s' % klass_name)
-        b = cache.get('jmbo_show_next_show_%s' % klass_name)
+        a = cache.get('jmbo_show_current_show_id_%s' % klass_name)
+        b = cache.get('jmbo_show_next_show_id_%s' % klass_name)
         if a and b:
-            return a, b
+            try:
+                return klass.permitted.get(id=a), klass.permitted.get(id=b)
+            except klass.DoesNotExist:
+                pass
 
     if now is None:
         now = timezone.now()
@@ -127,8 +130,16 @@ def get_current_next_permitted_show(klass=Show, now=None):
 
     # Cache
     if use_cache:
-        cache.set('jmbo_show_current_show_%s' % klass_name, current_show, 60)
-        cache.set('jmbo_show_next_show_%s' % klass_name, next_show, 60)
+        if current_show:
+            cache.set(
+                'jmbo_show_current_show_id_%s' % klass_name, 
+                current_show.id, 60
+            )
+        if next_show:
+            cache.set(
+                'jmbo_show_next_show_id_%s' % klass_name, 
+                next_show.id, 60
+            )
 
     return current_show, next_show
 
