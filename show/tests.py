@@ -15,11 +15,10 @@ class TestCase(unittest.TestCase):
         # Post-syncdb steps
         management.call_command('migrate', interactive=False)
 
-        import pdb;pdb.set_trace()
         monday = datetime(year=2013,month=3,day=25,hour=0, minute=0)
         tuesday = monday + timedelta(days=1)
         wednesday = monday + timedelta(days=2)
-
+        
         the_house = {
             'title': 'The House', 
             'start': monday.replace(hour=21),
@@ -105,7 +104,7 @@ class TestCase(unittest.TestCase):
         }
 
         the_weekend_breakfast = {
-            'title': 'The Workzone Part 1', 
+            'title': 'The Weekend Breakfast', 
             'start': monday.replace(hour=6),
             'end': monday.replace(hour=10),
             'repeat': 'weekends'
@@ -122,7 +121,7 @@ class TestCase(unittest.TestCase):
             'title': 'In The House', 
             'start': monday.replace(hour=14),
             'end': monday.replace(hour=17),
-            'repeat': 'weekends'
+            'repeat': 'saturdays'
         }
 
         ecr_top_20 = {
@@ -139,12 +138,12 @@ class TestCase(unittest.TestCase):
             'repeat': 'weekends'
         }
 
-        the_pulse = {
-            'title': 'The Pulse', 
-            'start': monday.replace(hour=21),
-            'end': monday.replace(hour=23),
-            'repeat': 'weekdays'
-        }
+        #the_pulse = {
+        #    'title': 'The Pulse', 
+        #    'start': monday.replace(hour=21),
+        #    'end': monday.replace(hour=23),
+        #    'repeat': 'weekdays'
+        #}
 
         sam_till_6 = {
             'title': 'Sam till 6', 
@@ -163,7 +162,7 @@ class TestCase(unittest.TestCase):
         # Use a "random" order
         # the_network was at 2 (0-indexed)
         shows = (the_house, sunday_mix, sam_till_6, lebo_m,
-            the_pulse, wez_reddy_show, the_lounge, the_breakfast_stack, ecr_top_20,
+            wez_reddy_show, the_lounge, the_breakfast_stack, ecr_top_20,
             the_workzone_part_1, in_the_house, the_workzone_part_2, 
             global_hot_hits_weekends, the_drive, the_weekend_breakfast, 
             the_pulse_with_abi_ray, the_right_start, ndumiso_at_9, the_late_night_show,
@@ -178,14 +177,53 @@ class TestCase(unittest.TestCase):
             self.shows[di['title']] = show
 
     def test_current_next_permitted_show(self):
-        import pdb;pdb.set_trace()
         monday = datetime(year=2013,month=3,day=25,hour=0, minute=0)
         tuesday = monday + timedelta(days=1)
         wednesday = monday + timedelta(days=2)
+        thursday = monday + timedelta(days=3)
+        friday = monday + timedelta(days=4)
+        saturday = monday + timedelta(days=5)
+        sunday = monday + timedelta(days=6)
 
+        # Simple case
         current_show, next_show = get_current_next_permitted_show(now=monday.replace(hour=8, minute=30))
         self.assertEqual(current_show, self.shows['The Breakfast Stack'])
         self.assertEqual(next_show, self.shows['The Workzone Part 1'])
 
-        #current_show, next_show = get_current_next_permitted_show(now=monday.replace(hour=23, minute=30))
-        #self.assertEqual(current_show, self.shows['The Network'])       
+        # Monday edge cases
+        current_show, next_show = get_current_next_permitted_show(now=monday.replace(hour=21, minute=30))
+        self.assertEqual(current_show, self.shows['Ndumiso @ 9'])
+        self.assertEqual(next_show, self.shows['The Late Night Show'])
+        current_show, next_show = get_current_next_permitted_show(now=monday.replace(hour=23, minute=30))
+        self.assertEqual(current_show, self.shows['The Late Night Show'])
+        self.assertEqual(next_show, self.shows['The Right Start'])
+        current_show, next_show = get_current_next_permitted_show(now=tuesday.replace(hour=0, minute=30))
+        self.assertEqual(current_show, self.shows['The Late Night Show'])
+        self.assertEqual(next_show, self.shows['The Right Start'])
+        current_show, next_show = get_current_next_permitted_show(now=tuesday.replace(hour=2, minute=30))
+        self.assertEqual(current_show, self.shows['The Right Start'])
+        self.assertEqual(next_show, self.shows['Sam till 6'])
+
+        # Friday edge cases
+        current_show, next_show = get_current_next_permitted_show(now=friday.replace(hour=21, minute=30))
+        self.assertEqual(current_show, self.shows['Ndumiso @ 9'])
+        self.assertEqual(next_show, self.shows['The Late Night Show'])
+        current_show, next_show = get_current_next_permitted_show(now=friday.replace(hour=23, minute=30))
+        self.assertEqual(current_show, self.shows['The Late Night Show'])
+        self.assertEqual(next_show, self.shows['Wez Reddy Show'])
+        current_show, next_show = get_current_next_permitted_show(now=saturday.replace(hour=0, minute=30))
+        self.assertEqual(current_show, self.shows['Wez Reddy Show'])
+        self.assertEqual(next_show, self.shows['Lebo M'])
+        current_show, next_show = get_current_next_permitted_show(now=saturday.replace(hour=3, minute=30))
+        self.assertEqual(current_show, self.shows['Lebo M'])
+        self.assertEqual(next_show, self.shows['The Weekend Breakfast'])
+
+        # Show only on a Sunday
+        current_show, next_show = get_current_next_permitted_show(now=sunday.replace(hour=13, minute=30))
+        self.assertEqual(current_show, self.shows['ECR Top 20'])
+        self.assertEqual(next_show, self.shows['Sunday Mix'])
+
+        # Sunday edge cases
+        current_show, next_show = get_current_next_permitted_show(now=sunday.replace(hour=21, minute=30))
+        self.assertEqual(current_show, self.shows['The House'])
+        self.assertEqual(next_show, self.shows['The Right Start'])
