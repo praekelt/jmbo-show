@@ -1,0 +1,29 @@
+{% load i18n jmbo_template_tags foundry_tags %}
+
+<div class="image">
+    <a href="{{ object.get_absolute_url }}">
+        <img src="{{ object.get_modelbase_list_item_ipod_url }}" alt="{{ object.title }}" />
+    </a>
+</div>
+
+<div class="title">
+    <a href="{{ object.get_absolute_url }}">{{ object.title }}</a>
+</div>
+
+<div class="meta">
+    <div class="when">
+        {% if object.repeat == 'does_not_repeat' %}
+            {% blocktrans with start=object.start|date:"j F Y H:i" end=object.end|date:"j F Y H:i" %}{{ start }} to {{ end }}{% endblocktrans %}
+        {% elif object.repeat == 'daily' %}
+            {% blocktrans with start=object.start|date:"H:i" end=object.end|date:"H:i" %}Daily from {{ start }} to {{ end }}{% endblocktrans %}
+        {% elif object.repeat == 'weekdays' %}
+            {% blocktrans with start=object.start|date:"H:i" end=object.end|date:"H:i" %}Weekdays from {{ start }} to {{ end }}{% endblocktrans %}
+        {% elif object.repeat == 'weekends' %}
+            {% blocktrans with start=object.start|date:"H:i" end=object.end|date:"H:i" %}Weekends from {{ start }} to {{ end }}{% endblocktrans %}
+        {% elif object.repeat == 'weekdays' %}
+            {% blocktrans with start=object.start|date:"H:i" end=object.end|date:"H:i" weekday=object.start|date:"l" %}Every {{ weekday }} from {{ start }} to {{ end }}{% endblocktrans %}
+        {% elif object.repeat == 'monthly_by_day_of_month' %}
+            {% blocktrans with day=object.start|date:"j" %}The {{ day }}th of every month{% endblocktrans %}
+        {% endif %}
+    </div>
+</div>
