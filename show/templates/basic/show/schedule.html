@@ -4,6 +4,13 @@
 {% block content %}
 <div class="show-schedule">
 
+    {% if intervals.daily %}
+        <div class="interval">
+            <div class="title">{% trans "Daily line-up" %}</div>
+            {% listing intervals.daily style='Horizontal' %}
+        </div>
+    {% endif %}
+
     {% if intervals.weekdays %}
         <div class="interval">
             <div class="title">{% trans "Weekday line-up" %}</div>

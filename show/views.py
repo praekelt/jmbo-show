@@ -6,10 +6,22 @@ from show.utils import get_current_permitted_show
 
 
 def schedule(request):
-    # The template requires querysets so no way to do one query
+
+    # Get shows but do a manual order on start time
+    def mysort(a, b):
+        return cmp(a.start.time(), b.start.time())
+    shows = [o for o in Show.permitted.all().order_by('start')]
+    shows.sort(mysort)
+
     di = {}
-    for k in ('weekdays', 'weekends', 'saturdays', 'sundays'):
-        di[k] = Show.permitted.filter(repeat=k).order_by('start')
+    for show in shows:
+        di.setdefault(show.repeat, [])
+        di[show.repeat].append(show.id)
+
+    # Convert values into querysets. The template requires it.
+    for k, v in di.items():
+        di[k] = Show.permitted.filter(id__in=v)
+
     extra = dict(intervals=di)
     return render_to_response('show/schedule.html', extra, context_instance=RequestContext(request))
 
