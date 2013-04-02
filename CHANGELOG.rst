@@ -1,8 +1,8 @@
 Changelog
 =========
 
-next
-----
+0.2.2
+-----
 #. Change calculation for on air now.
 
 0.2.1
