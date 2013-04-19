@@ -30,8 +30,9 @@
         {% endwith %}
     {% endcache %}
 
+    {% with request.GET.page as page %}
     {% if related_items %}
-        {% cache 300 'object-detail-inclusion-related' object.id object.modified request.GET.page category %}
+        {% cache 300 'object-detail-inclusion-related' object.id object.modified page category %}
             <div class="related">
                 {% listing related_items style='VerticalThumbnail' items_per_page=1 %}
             </div>
@@ -39,7 +40,7 @@
     {% endif %}
 
     {% if is_about %}
-        {% cache 300 'object-detail-inclusion-about' object.id object.modified request.GET.page %}
+        {% cache 300 'object-detail-inclusion-about' object.id object.modified page %}
             {% if object.image %}
                 <div class="image">
                     <img src="{{ object.image_detail_url }}" />
@@ -52,7 +53,7 @@
     {% endif %}
 
     {% if is_polls %}
-        {% cache 300 'object-detail-inclusion-polls' object.id object.modified request.GET.page %}
+        {% cache 300 'object-detail-inclusion-polls' object.id object.modified page %}
             {% get_relation_by_type_list 'poll.poll' for object as 'polls' 'both' %}
             <div class="polls">
                 {% listing polls style='VerticalThumbnail' %}
@@ -61,12 +62,13 @@
     {% endif %}
 
     {% if is_galleries %}
-        {% cache 300 'object-detail-inclusion-galleries' object.id object.modified request.GET.page %}
+        {% cache 300 'object-detail-inclusion-galleries' object.id object.modified page %}
             {% get_relation_by_type_list 'gallery.gallery' for object as 'galleries' 'both' %}
             <div class="galleries">
                 {% listing galleries style='VerticalThumbnail' %}
             </div>
         {% endcache %}
     {% endif %}
+    {% endwith %}
 
 {% endblock %}
