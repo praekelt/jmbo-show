@@ -1,7 +1,9 @@
 {% extends "base.html" %}
-{% load i18n foundry_tags %}
+{% load cache i18n foundry_tags %}
 
 {% block content %}
+{% cache 1200 show-schedule %}
+
 <div class="show-schedule">
 
     {% if intervals.daily %}
@@ -40,4 +42,6 @@
     {% endif %}
 
 </div>
+
+{% endcache %}
 {% endblock %}
