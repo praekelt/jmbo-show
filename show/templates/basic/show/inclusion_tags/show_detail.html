@@ -34,7 +34,7 @@
     {% if related_items %}
         {% cache 300 'object-detail-inclusion-related' object.id object.modified page category %}
             <div class="related">
-                {% listing related_items style='VerticalThumbnail' items_per_page=1 identifier='show-detail-related' %}
+                {% listing related_items style='VerticalThumbnail' identifier='show-detail-related' %}
             </div>
         {% endcache %}
     {% endif %}
