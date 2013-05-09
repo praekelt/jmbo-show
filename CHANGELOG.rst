@@ -1,6 +1,10 @@
 Changelog
 =========
 
+next
+----
+#. Cache show detail page.
+
 0.2.2
 -----
 #. Change calculation for on air now.

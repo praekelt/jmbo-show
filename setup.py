@@ -11,7 +11,7 @@ setup(
     url='http://github.com/praekelt/jmbo-show',
     packages = find_packages(),
     install_requires = [
-        'jmbo-foundry>=1.1.2',
+        'jmbo-foundry>=1.1.17',
     ],
     tests_require=[
         'django-setuptest>=0.1.2',

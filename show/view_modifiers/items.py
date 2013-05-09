@@ -11,4 +11,5 @@ class CategoryRelatedItem(GetItem):
         if category != 'all':
             qs = qs.filter(primary_category__slug=category)
         view.params['extra_context']['related_items'] = qs
+        view.params['extra_context']['category'] = category
         return view
