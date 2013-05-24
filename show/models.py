@@ -95,6 +95,11 @@ to today. It will be ignored."""
         blank=True,
         null=True,
     )
+    start_time = models.TimeField(
+        db_index=True, 
+        editable=False, 
+        auto_now_add=True
+    )
 
     def get_primary_contributors(self):
         """
@@ -196,6 +201,8 @@ to today. It will be ignored."""
                             and the show will never be repeated.''')
         else:
             self.repeat_until = None
+
+        self.start_time = self.start.time()
 
         super(Show, self).save(*args, **kwargs)
 

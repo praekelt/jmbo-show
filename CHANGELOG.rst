@@ -4,6 +4,7 @@ Changelog
 next
 ----
 #. Cache show detail page.
+#. Add a field so queries can be ordered on start time instead of start datetime.
 
 0.2.2
 -----
