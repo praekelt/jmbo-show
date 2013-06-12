@@ -34,7 +34,7 @@
     {% if related_items %}
         {% cache 300 'object-detail-inclusion-related' object.id object.modified page category %}
             <div class="related">
-                {% listing related_items style='VerticalThumbnail' identifier='show-detail-related' %}
+                {% listing related_items style='VerticalThumbnail' items_per_page=10 identifier='show-detail-related' %}
             </div>
         {% endcache %}
     {% endif %}
@@ -56,7 +56,7 @@
         {% cache 300 'object-detail-inclusion-polls' object.id object.modified page %}
             {% get_relation_by_type_list 'poll.poll' for object as 'polls' 'both' %}
             <div class="polls">
-                {% listing polls style='VerticalThumbnail' identifier='show-detail-polls' %}
+                {% listing polls style='VerticalThumbnail' items_per_page=10 identifier='show-detail-polls' %}
             </div>
         {% endcache %}
     {% endif %}
@@ -65,7 +65,7 @@
         {% cache 300 'object-detail-inclusion-galleries' object.id object.modified page %}
             {% get_relation_by_type_list 'gallery.gallery' for object as 'galleries' 'both' %}
             <div class="galleries">
-                {% listing galleries style='VerticalThumbnail' identifier='show-detail-galleries' %}
+                {% listing galleries style='VerticalThumbnail' items_per_page=10 identifier='show-detail-galleries' %}
             </div>
         {% endcache %}
     {% endif %}
