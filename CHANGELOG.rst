@@ -1,6 +1,10 @@
 Changelog
 =========
 
+next
+----
+#. Fix missing south dependency on `jmbo-calendar`.
+
 0.2.3
 -----
 #. Cache show detail page.
