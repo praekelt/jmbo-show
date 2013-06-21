@@ -7,6 +7,10 @@ from django.db import models
 
 class Migration(SchemaMigration):
 
+    depends_on = (
+        ("jmbo_calendar", "0004_auto__add_field_event_external_link"),
+    )
+
     def forwards(self, orm):
         # Adding model 'Contributor'
         db.create_table('show_contributor', (
