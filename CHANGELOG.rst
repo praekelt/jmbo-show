@@ -1,8 +1,8 @@
 Changelog
 =========
 
-next
-----
+0.2.4
+-----
 #. Fix missing south dependency on `jmbo-calendar`.
 
 0.2.3
