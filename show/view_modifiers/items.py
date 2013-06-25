@@ -10,6 +10,7 @@ class CategoryRelatedItem(GetItem):
         qs = obj.get_permitted_related_items(direction='both')
         if category != 'all':
             qs = qs.filter(primary_category__slug=category)
-        view.params['extra_context']['related_items'] = qs
-        view.params['extra_context']['category'] = category
+        view.params['extra_context']['view_modifier'].related_items = qs
+        view.params['extra_context']['view_modifier'].category = category
+
         return view
