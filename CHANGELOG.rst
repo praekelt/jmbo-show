@@ -1,8 +1,8 @@
 Changelog
 =========
 
-next
-----
+0.3
+---
 #. Change the view modifier so it does not write directly to `extra_params`. This change causes template breakage if you have customized `show_detail.html`.
 
 0.2.4
