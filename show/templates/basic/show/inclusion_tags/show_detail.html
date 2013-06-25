@@ -31,10 +31,10 @@
     {% endcache %}
 
     {% with request.GET.page as page %}
-    {% if related_items %}
-        {% cache 300 'object-detail-inclusion-related' object.id object.modified page category %}
+    {% if view_modifier.related_items %}
+        {% cache 300 'object-detail-inclusion-related' object.id object.modified page view_modifier.category %}
             <div class="related">
-                {% listing related_items style='VerticalThumbnail' items_per_page=10 identifier='show-detail-related' %}
+                {% listing view_modifier.related_items style='VerticalThumbnail' items_per_page=10 identifier='show-detail-related' %}
             </div>
         {% endcache %}
     {% endif %}
