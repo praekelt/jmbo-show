@@ -1,8 +1,8 @@
 {% extends "base.html" %}
-{% load cache i18n foundry_tags %}
+{% load i18n jmbo_template_tags foundry_tags %}
 
 {% block content %}
-{% cache 1200 show-schedule %}
+{% jmbocache 1200 show-schedule %}
 
 <div class="show-schedule">
 
@@ -43,5 +43,5 @@
 
 </div>
 
-{% endcache %}
+{% endjmbocache %}
 {% endblock %}
