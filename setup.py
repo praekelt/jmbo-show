@@ -12,9 +12,10 @@ setup(
     packages = find_packages(),
     install_requires = [
         'jmbo-foundry>=1.1.17',
+        'jmbo>=1.0.8',
     ],
     tests_require=[
-        'django-setuptest>=0.1.2',
+        'django-setuptest>=0.1.4',
     ],
     test_suite='setuptest.setuptest.SetupTestSuite',
     include_package_data=True,
