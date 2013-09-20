@@ -1,6 +1,10 @@
 Changelog
 =========
 
+next
+----
+#. Cache more templates.
+
 0.3.1
 -----
 #. Use `jmbocache` tag which takes the current site in account.

@@ -2,7 +2,7 @@
 {% load i18n humanize jmbo_template_tags foundry_tags show_tags %}
 
 {% block content %}
-    
+
     {% jmbocache 3600 'object-detail-inclusion' object.id object.modified %}
         <div class="when">
             {% if object.repeat == 'does_not_repeat' %}
