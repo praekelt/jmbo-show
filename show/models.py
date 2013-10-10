@@ -67,7 +67,7 @@ class Show(ModelBase):
         through='show.Credit',
     )
     start = models.DateTimeField(
-        db_index=True, 
+        db_index=True,
         help_text="""If only the time of day is applicable then set the day \
 to today. It will be ignored."""
     )
@@ -96,8 +96,8 @@ to today. It will be ignored."""
         null=True,
     )
     start_time = models.TimeField(
-        db_index=True, 
-        editable=False, 
+        db_index=True,
+        editable=False,
         auto_now_add=True
     )
 
@@ -122,7 +122,7 @@ to today. It will be ignored."""
                 contributors.append(contributor)
 
         return contributors
-    
+
     @property
     def duration(self):
         return self.end - self.start
