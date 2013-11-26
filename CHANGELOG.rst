@@ -1,6 +1,10 @@
 Changelog
 =========
 
+next
+----
+#. Fix tests.
+
 0.3.2
 -----
 #. Cache more templates.
