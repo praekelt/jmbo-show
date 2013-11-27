@@ -1,6 +1,7 @@
 from datetime import datetime
 from datetime import timedelta
 
+from django.test import TestCase
 from django.core import management
 from django.utils import unittest, timezone
 
@@ -8,12 +9,9 @@ from show.models import Show
 from show.utils import get_current_next_permitted_show
 
 
-class TestCase(unittest.TestCase):
+class TestCase(TestCase):
 
     def setUp(self):
-
-        # Post-syncdb steps
-
         monday = datetime(year=2013,month=3,day=25,hour=0, minute=0)
         tuesday = monday + timedelta(days=1)
         wednesday = monday + timedelta(days=2)
