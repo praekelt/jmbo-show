@@ -1,3 +1,5 @@
+from datetime import timedelta
+
 from django.core.cache import cache
 from django.utils import timezone
 
@@ -105,7 +107,7 @@ def get_current_next_permitted_show(klass=Show, now=None):
             slots['today'].append(show)
             slots['yesterday'].append(show)
             slots['tomorrow'].append(show)
- 
+
     # Second pass finds current and next show
     current_show = None
     previous_show = None
@@ -125,14 +127,14 @@ def get_current_next_permitted_show(klass=Show, now=None):
         next_show = previous_show
 
     # Use tomorrow's first show if next show not set
-    if next_show is None:        
+    if next_show is None:
         next_show = slots['tomorrow'] and slots['tomorrow'][0] or None
 
     # Cache
     if use_cache:
         if current_show:
             cache.set(
-                'jmbo_show_current_show_id_%s' % klass_name, 
+                'jmbo_show_current_show_id_%s' % klass_name,
                 current_show.id, 60
             )
         if next_show:

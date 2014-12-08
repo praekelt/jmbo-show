@@ -4,31 +4,34 @@ from show.view_modifiers import RadioShowDefaultViewModifier
 
 
 urlpatterns = patterns(
-    '',   
+    '',
 
     url(
-        r'^schedule/$', 
+        r'^schedule/$',
         'show.views.schedule',
         {},
         name='show-schedule'
     ),
 
     url(
-        r'^current/radio/$', 
+        r'^current/radio/$',
         'show.views.current_radio',
         {},
         name='show-current-radio'
     ),
 
     url(
-        r'^radio/(?P<slug>[\w-]+)/$', 
+        r'^radio/(?P<slug>[\w-]+)/$',
         'jmbo.views.object_detail',
-        {'template_name': 'show/show_detail.html', 'view_modifier': RadioShowDefaultViewModifier},
+        {
+            'template_name': 'show/show_detail.html',
+            'view_modifier': RadioShowDefaultViewModifier
+        },
         name='radioshow_object_detail'
     ),
 
     url(
-        r'^radio/(?P<slug>[\w-]+)/about/$', 
+        r'^radio/(?P<slug>[\w-]+)/about/$',
         'jmbo.views.object_detail',
         {
             'view_modifier': RadioShowDefaultViewModifier,
@@ -38,7 +41,7 @@ urlpatterns = patterns(
     ),
 
     url(
-        r'^radio/(?P<slug>[\w-]+)/polls/$', 
+        r'^radio/(?P<slug>[\w-]+)/polls/$',
         'jmbo.views.object_detail',
         {
             'view_modifier': RadioShowDefaultViewModifier,
@@ -48,7 +51,7 @@ urlpatterns = patterns(
     ),
 
     url(
-        r'^radio/(?P<slug>[\w-]+)/galleries/$', 
+        r'^radio/(?P<slug>[\w-]+)/galleries/$',
         'jmbo.views.object_detail',
         {
             'view_modifier': RadioShowDefaultViewModifier,
@@ -58,7 +61,7 @@ urlpatterns = patterns(
     ),
 
     url(
-        r'^contributor/(?P<slug>[\w-]+)/$', 
+        r'^contributor/(?P<slug>[\w-]+)/$',
         'jmbo.views.object_detail',
         {},
         name='contributor_object_detail'

@@ -2,11 +2,8 @@ from datetime import datetime, timedelta
 import calendar
 import math
 
-from django.conf import settings
-from django.core.urlresolvers import reverse
 from django.db import models
 from django.utils import timezone
-from django.utils.translation import ugettext_lazy as _, ugettext
 
 from ckeditor.fields import RichTextField
 from preferences.models import Preferences
@@ -55,7 +52,7 @@ class Credit(models.Model):
 
 
 class Show(ModelBase):
-    """Show is intended to be a superclass but cannot be marked abstract due 
+    """Show is intended to be a superclass but cannot be marked abstract due
     to the many-to-many fields."""
     content = RichTextField(
         help_text="Full article detailing this show.",
@@ -108,7 +105,9 @@ to today. It will be ignored."""
         of priority). Only permitted contributors are returned.
         """
         primary_credits = []
-        credits = self.credits.exclude(credit_option=None).order_by('credit_option__role_priority')
+        credits = self.credits.exclude(credit_option=None).order_by(
+            'credit_option__role_priority'
+        )
         if credits:
             primary_role_priority = credits[0].credit_option.role_priority
             for credit in credits:
@@ -157,8 +156,9 @@ to today. It will be ignored."""
                         year=date.year + int(math.floor((date.month + 1) / 12)))
 
             if self.start.day > calendar.monthrange(date.year, date.month)[1]:
-                date = date.replace(day=calendar.monthrange(date.year,
-                        date.month)[1])
+                date = date.replace(
+                    day=calendar.monthrange(date.year, date.month)[1]
+                )
             else:
                 date = date.replace(day=self.start.day)
         else:
