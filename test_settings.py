@@ -19,6 +19,7 @@ DATABASES = {
 
 INSTALLED_APPS = (
     'show',
+    'foundry',
     'jmbo',
     'photologue',
     'jmbo_calendar',

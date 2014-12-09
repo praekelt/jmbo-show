@@ -14,6 +14,7 @@ setup(
         'jmbo-calendar>=0.2.5',
         'django-ckeditor>=4.0.2',
         'jmbo>=1.1.1',
+        'jmbo-foundry>=1.2',
     ],
     tests_require=[
         'django-setuptest>=0.1.4',
