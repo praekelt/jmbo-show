@@ -2,8 +2,8 @@
 {% load i18n jmbo_template_tags foundry_tags %}
 
 {% block content %}
-{% jmbocache 1200 show-schedule %}
 
+{% jmbocache 1200 show-schedule %}
 <div class="show-schedule">
 
     {% if intervals.daily %}
@@ -33,7 +33,7 @@
             {% listing intervals.saturdays style='Horizontal' %}
         </div>
     {% endif %}
-    
+
     {% if intervals.sundays %}
         <div class="interval">
             <div class="title">{% trans "Sunday line-up" %}</div>
@@ -42,6 +42,6 @@
     {% endif %}
 
 </div>
-
 {% endjmbocache %}
+
 {% endblock %}

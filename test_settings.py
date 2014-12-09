@@ -17,8 +17,6 @@ DATABASES = {
     }
 }
 
-TIME_ZONE = 'GMT'
-
 INSTALLED_APPS = (
     'show',
     'jmbo',
@@ -59,6 +57,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 )
 
 USE_TZ = True
+TIME_ZONE = 'GMT'
 
 SITE_ID = 1
 

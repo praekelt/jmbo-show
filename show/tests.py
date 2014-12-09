@@ -1,6 +1,4 @@
-from datetime import datetime
-from datetime import timedelta
-
+from django.utils.timezone import datetime, timedelta
 from django.test import TestCase
 
 from show.models import Show
@@ -175,8 +173,6 @@ class TestCase(TestCase):
     def test_current_next_permitted_show(self):
         monday = datetime(year=2013, month=3, day=25, hour=0, minute=0)
         tuesday = monday + timedelta(days=1)
-        wednesday = monday + timedelta(days=2)
-        thursday = monday + timedelta(days=3)
         friday = monday + timedelta(days=4)
         saturday = monday + timedelta(days=5)
         sunday = monday + timedelta(days=6)
