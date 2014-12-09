@@ -1,8 +1,10 @@
+from django.core.urlresolvers import reverse_lazy
 from django.utils.timezone import datetime, timedelta
-from django.test import TestCase
+from django.test import TestCase, Client, RequestFactory
 
 from show.models import Show
 from show.utils import get_current_next_permitted_show
+from show import views
 
 
 class TestCase(TestCase):

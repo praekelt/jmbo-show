@@ -1,7 +1,6 @@
 # We're still on Django 1.4 and use django-setuptest. Use this as a starting
 # point for your test settings. Typically copy this file as test_settings.py
 # and replace myapp with your app name.
-
 from os.path import expanduser
 
 DEBUG = True
@@ -15,6 +14,12 @@ DATABASES = {
         'HOST': '',
         'PORT': '',
     }
+}
+
+FOUNDRY = {
+    'sms_gateway_api_key': '',
+    'sms_gateway_password': '',
+    'layers': ('basic',)
 }
 
 INSTALLED_APPS = (
@@ -35,27 +40,7 @@ INSTALLED_APPS = (
     'django.contrib.sites'
 )
 
-ROOT_URLCONF = 'show.tests.urls'
-
-MIDDLEWARE_CLASSES = (
-    'django.middleware.common.CommonMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'likes.middleware.SecretBallotUserIpUseragentMiddleware',
-)
-
-TEMPLATE_CONTEXT_PROCESSORS = (
-    'django.contrib.auth.context_processors.auth',
-    'django.core.context_processors.debug',
-    'django.core.context_processors.i18n',
-    'django.core.context_processors.media',
-    'django.core.context_processors.static',
-    'django.core.context_processors.tz',
-    'django.core.context_processors.request',
-    'django.contrib.messages.context_processors.messages',
-)
+ROOT_URLCONF = 'show.urls'
 
 USE_TZ = True
 TIME_ZONE = 'GMT'
