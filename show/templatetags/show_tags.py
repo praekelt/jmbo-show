@@ -54,9 +54,10 @@ class RelationByTypeListNode(template.Node):
             direction = self.direction.resolve(context)
         except template.VariableDoesNotExist:
             direction = 'forward'
-        #import pdb;pdb.set_trace()
-        context[as_var] = obj.get_permitted_related_items(direction=direction).filter(
-            content_type__app_label=content_type_app_label, 
+        context[as_var] = obj.get_permitted_related_items(
+            direction=direction
+        ).filter(
+            content_type__app_label=content_type_app_label,
             content_type__model=content_type_model
         )
         return ''

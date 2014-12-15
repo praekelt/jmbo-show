@@ -1,18 +1,16 @@
-from datetime import datetime
-from datetime import timedelta
-
-from django.test import TestCase
-from django.core import management
-from django.utils import unittest, timezone
+from django.core.urlresolvers import reverse_lazy
+from django.utils.timezone import datetime, timedelta
+from django.test import TestCase, Client, RequestFactory
 
 from show.models import Show
 from show.utils import get_current_next_permitted_show
+from show import views
 
 
 class TestCase(TestCase):
 
     def setUp(self):
-        monday = datetime(year=2013,month=3,day=25,hour=0, minute=0)
+        monday = datetime(year=2013, month=3, day=25, hour=0, minute=0)
         tuesday = monday + timedelta(days=1)
         wednesday = monday + timedelta(days=2)
 
@@ -158,11 +156,12 @@ class TestCase(TestCase):
 
         # Use a "random" order
         # the_network was at 2 (0-indexed)
-        shows = (the_house, sunday_mix, sam_till_6, lebo_m,
-            wez_reddy_show, the_lounge, the_breakfast_stack, ecr_top_20,
-            the_workzone_part_1, in_the_house, the_workzone_part_2,
-            global_hot_hits_weekends, the_drive, the_weekend_breakfast,
-            the_pulse_with_abi_ray, the_right_start, ndumiso_at_9, the_late_night_show,
+        shows = (
+            the_house, sunday_mix, sam_till_6, lebo_m, wez_reddy_show,
+            the_lounge, the_breakfast_stack, ecr_top_20, the_workzone_part_1,
+            in_the_house, the_workzone_part_2, global_hot_hits_weekends,
+            the_drive, the_weekend_breakfast, the_pulse_with_abi_ray,
+            the_right_start, ndumiso_at_9, the_late_night_show
         )
 
         self.shows = {}
@@ -174,53 +173,73 @@ class TestCase(TestCase):
             self.shows[di['title']] = show
 
     def test_current_next_permitted_show(self):
-        monday = datetime(year=2013,month=3,day=25,hour=0, minute=0)
+        monday = datetime(year=2013, month=3, day=25, hour=0, minute=0)
         tuesday = monday + timedelta(days=1)
-        wednesday = monday + timedelta(days=2)
-        thursday = monday + timedelta(days=3)
         friday = monday + timedelta(days=4)
         saturday = monday + timedelta(days=5)
         sunday = monday + timedelta(days=6)
 
         # Simple case
-        current_show, next_show = get_current_next_permitted_show(now=monday.replace(hour=8, minute=30))
+        current_show, next_show = get_current_next_permitted_show(
+            now=monday.replace(hour=8, minute=30)
+        )
         self.assertEqual(current_show, self.shows['The Breakfast Stack'])
         self.assertEqual(next_show, self.shows['The Workzone Part 1'])
 
         # Monday edge cases
-        current_show, next_show = get_current_next_permitted_show(now=monday.replace(hour=21, minute=30))
+        current_show, next_show = get_current_next_permitted_show(
+            now=monday.replace(hour=21, minute=30)
+        )
         self.assertEqual(current_show, self.shows['Ndumiso @ 9'])
         self.assertEqual(next_show, self.shows['The Late Night Show'])
-        current_show, next_show = get_current_next_permitted_show(now=monday.replace(hour=23, minute=30))
+        current_show, next_show = get_current_next_permitted_show(
+            now=monday.replace(hour=23, minute=30)
+        )
         self.assertEqual(current_show, self.shows['The Late Night Show'])
         self.assertEqual(next_show, self.shows['The Right Start'])
-        current_show, next_show = get_current_next_permitted_show(now=tuesday.replace(hour=0, minute=30))
+        current_show, next_show = get_current_next_permitted_show(
+            now=tuesday.replace(hour=0, minute=30)
+        )
         self.assertEqual(current_show, self.shows['The Late Night Show'])
         self.assertEqual(next_show, self.shows['The Right Start'])
-        current_show, next_show = get_current_next_permitted_show(now=tuesday.replace(hour=2, minute=30))
+        current_show, next_show = get_current_next_permitted_show(
+            now=tuesday.replace(hour=2, minute=30)
+        )
         self.assertEqual(current_show, self.shows['The Right Start'])
         self.assertEqual(next_show, self.shows['Sam till 6'])
 
         # Friday edge cases
-        current_show, next_show = get_current_next_permitted_show(now=friday.replace(hour=21, minute=30))
+        current_show, next_show = get_current_next_permitted_show(
+            now=friday.replace(hour=21, minute=30)
+        )
         self.assertEqual(current_show, self.shows['Ndumiso @ 9'])
         self.assertEqual(next_show, self.shows['The Late Night Show'])
-        current_show, next_show = get_current_next_permitted_show(now=friday.replace(hour=23, minute=30))
+        current_show, next_show = get_current_next_permitted_show(
+            now=friday.replace(hour=23, minute=30)
+        )
         self.assertEqual(current_show, self.shows['The Late Night Show'])
         self.assertEqual(next_show, self.shows['Wez Reddy Show'])
-        current_show, next_show = get_current_next_permitted_show(now=saturday.replace(hour=0, minute=30))
+        current_show, next_show = get_current_next_permitted_show(
+            now=saturday.replace(hour=0, minute=30)
+        )
         self.assertEqual(current_show, self.shows['Wez Reddy Show'])
         self.assertEqual(next_show, self.shows['Lebo M'])
-        current_show, next_show = get_current_next_permitted_show(now=saturday.replace(hour=3, minute=30))
+        current_show, next_show = get_current_next_permitted_show(
+            now=saturday.replace(hour=3, minute=30)
+        )
         self.assertEqual(current_show, self.shows['Lebo M'])
         self.assertEqual(next_show, self.shows['The Weekend Breakfast'])
 
         # Show only on a Sunday
-        current_show, next_show = get_current_next_permitted_show(now=sunday.replace(hour=13, minute=30))
+        current_show, next_show = get_current_next_permitted_show(
+            now=sunday.replace(hour=13, minute=30)
+        )
         self.assertEqual(current_show, self.shows['ECR Top 20'])
         self.assertEqual(next_show, self.shows['Sunday Mix'])
 
         # Sunday edge cases
-        current_show, next_show = get_current_next_permitted_show(now=sunday.replace(hour=21, minute=30))
+        current_show, next_show = get_current_next_permitted_show(
+            now=sunday.replace(hour=21, minute=30)
+        )
         self.assertEqual(current_show, self.shows['The House'])
         self.assertEqual(next_show, self.shows['The Right Start'])

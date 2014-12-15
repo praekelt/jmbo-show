@@ -1,7 +1,6 @@
 from django import forms
 from django.contrib import admin
 
-from preferences import preferences
 from jmbo.admin import ModelBaseAdmin, ModelBaseAdminForm
 
 from show.models import Appearance, Credit, CreditOption, RadioShow, \
@@ -20,7 +19,7 @@ class CreditInlineAdminForm(forms.ModelForm):
 
     class Meta:
         model = Credit
-    
+
 
 class CreditInline(admin.TabularInline):
     form = CreditInlineAdminForm
@@ -48,7 +47,8 @@ class ShowAdminForm(ModelBaseAdminForm):
 
 class ShowAdmin(ModelBaseAdmin):
     form = ShowAdminForm
-    list_display =  ModelBaseAdmin.list_display + ('start', 'end', 'next', 'repeat', 'repeat_until')
+    list_display = ModelBaseAdmin.list_display + \
+        ('start', 'end', 'next', 'repeat', 'repeat_until')
     list_filter = ('repeat',)
     inlines = [CreditInline]
 
