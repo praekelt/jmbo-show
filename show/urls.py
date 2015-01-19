@@ -1,8 +1,7 @@
 from django.conf.urls import patterns, url
 
-from jmbo.views import ObjectDetail
-
 from show.view_modifiers import RadioShowDefaultViewModifier
+from show.views import ObjectDetail
 
 
 urlpatterns = patterns(
@@ -24,40 +23,25 @@ urlpatterns = patterns(
 
     url(
         r'^radio/(?P<slug>[\w-]+)/$',
-        ObjectDetail.as_view(template_name='show/show_detail.html'),
-        {
-            'view_modifier': RadioShowDefaultViewModifier
-        },
+        ObjectDetail.as_view(),
         name='radioshow_object_detail'
     ),
 
     url(
         r'^radio/(?P<slug>[\w-]+)/about/$',
-        ObjectDetail.as_view(),
-        {
-            'view_modifier': RadioShowDefaultViewModifier,
-            'extra_context': {'is_about': True}
-        },
+        ObjectDetail.as_view(is_about=True),
         name='radio-show-about'
     ),
 
     url(
         r'^radio/(?P<slug>[\w-]+)/polls/$',
-        ObjectDetail.as_view(),
-        {
-            'view_modifier': RadioShowDefaultViewModifier,
-            'extra_context': {'is_polls': True}
-        },
+        ObjectDetail.as_view(is_polls=True),
         name='radio-show-polls'
     ),
 
     url(
         r'^radio/(?P<slug>[\w-]+)/galleries/$',
-        ObjectDetail.as_view(),
-        {
-            'view_modifier': RadioShowDefaultViewModifier,
-            'extra_context': {'is_galleries': True}
-        },
+        ObjectDetail.as_view(is_galleries=True),
         name='radio-show-galleries'
     ),
 

@@ -13,7 +13,8 @@ class BaseShowDefaultViewModifier(ViewModifier):
 
     prefix = ''
 
-    def __init__(self, request, slug, *args, **kwargs):
+    def __init__(self, request, *args, **kwargs):
+        slug = kwargs['slug']
         show = Show.objects.get(slug=slug)
         base_url = show.get_absolute_url()
         self.items = [
@@ -81,7 +82,8 @@ class RadioShowDefaultViewModifier(BaseShowDefaultViewModifier):
 
 
 class ShowContributorViewModifier(ViewModifier):
-    def __init__(self, request, slug, *args, **kwargs):
+    def __init__(self, request, *args, **kwargs):
+        slug = kwargs['slug']
         self.items = []
         '''
         self.items = [

@@ -1,8 +1,11 @@
 from django.template import RequestContext
 from django.shortcuts import render_to_response
 
+from jmbo.views import ObjectDetail as JmboObjectDetail
+
 from show.models import Show, RadioShow
 from show.utils import get_current_permitted_show
+from show.view_modifiers import RadioShowDefaultViewModifier
 
 
 def schedule(request):
@@ -27,3 +30,18 @@ def current_radio(request):
         'show/current_radio.html', extra,
         context_instance=RequestContext(request)
     )
+
+
+class ObjectDetail(JmboObjectDetail):
+    template_name = "show/show_detail.html"
+    view_modifier = RadioShowDefaultViewModifier
+    is_about = False
+    is_polls = False
+    is_galleries = False
+
+    def get_context_data(self, **kwargs):
+        context = super(ObjectDetail, self).get_context_data(**kwargs)
+        context["is_about"] = self.is_about
+        context["is_polls"] = self.is_polls
+        context["is_galleries"] = self.is_galleries
+        return context

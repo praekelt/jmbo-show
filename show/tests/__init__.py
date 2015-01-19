@@ -1,15 +1,33 @@
 from django.core.urlresolvers import reverse_lazy
 from django.utils.timezone import datetime, timedelta
 from django.test import TestCase, Client, RequestFactory
+from django.core import management
 
 from show.models import Show
 from show.utils import get_current_next_permitted_show
 from show import views
 
+from foundry.models import Member
+
 
 class TestCase(TestCase):
 
-    def setUp(self):
+    @classmethod
+    def setUpClass(cls):
+        cls.request = RequestFactory()
+        cls.client = Client()
+
+        # Post-syncdb steps
+        management.call_command('load_photosizes', interactive=False)
+
+        # Editor
+        cls.editor, dc = Member.objects.get_or_create(
+            username='editor',
+            email='editor@test.com'
+        )
+        cls.editor.set_password("password")
+        cls.editor.save()
+
         monday = datetime(year=2013, month=3, day=25, hour=0, minute=0)
         tuesday = monday + timedelta(days=1)
         wednesday = monday + timedelta(days=2)
@@ -20,13 +38,6 @@ class TestCase(TestCase):
             'end': tuesday,
             'repeat': 'weekends'
         }
-
-        #the_network = {
-        #    'title': 'The Network',
-        #    'start': tuesday.replace(hour=21),
-        #    'end': wednesday,
-        #    'repeat': 'weekdays'
-        #}
 
         lebo_m = {
             'title': 'Lebo M',
@@ -133,13 +144,6 @@ class TestCase(TestCase):
             'repeat': 'weekends'
         }
 
-        #the_pulse = {
-        #    'title': 'The Pulse',
-        #    'start': monday.replace(hour=21),
-        #    'end': monday.replace(hour=23),
-        #    'repeat': 'weekdays'
-        #}
-
         sam_till_6 = {
             'title': 'Sam till 6',
             'start': monday.replace(hour=5),
@@ -164,13 +168,13 @@ class TestCase(TestCase):
             the_right_start, ndumiso_at_9, the_late_night_show
         )
 
-        self.shows = {}
+        cls.shows = {}
         for di in shows:
             di['state'] = 'published'
-            show, dc = Show.objects.get_or_create(**di)
+            show = Show.objects.create(**di)
             show.sites = [1]
             show.save()
-            self.shows[di['title']] = show
+            cls.shows[di['title']] = show
 
     def test_current_next_permitted_show(self):
         monday = datetime(year=2013, month=3, day=25, hour=0, minute=0)
@@ -243,3 +247,8 @@ class TestCase(TestCase):
         )
         self.assertEqual(current_show, self.shows['The House'])
         self.assertEqual(next_show, self.shows['The Right Start'])
+
+    def test_show_detail(self):
+        show = self.shows["The House"]
+        response = self.client.get(show.get_absolute_url())
+        self.assertEqual(response.status_code, 200)
