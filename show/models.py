@@ -23,6 +23,9 @@ class Contributor(ModelBase):
         related_name='show_contributors',
     )
 
+    class Meta:
+        verbose_name = "Contributor"
+
     @property
     def permitted_shows(self):
         return Show.permitted.filter(contributor__in=[self]).order_by('title')
@@ -97,6 +100,9 @@ to today. It will be ignored."""
         editable=False,
         auto_now_add=True
     )
+
+    class Meta:
+        verbose_name = "Show"
 
     def get_primary_contributors(self):
         """
@@ -208,7 +214,9 @@ to today. It will be ignored."""
 
 
 class RadioShow(Show):
-    pass
+
+    class Meta:
+        verbose_name = "Radio Show"
 
 
 class ShowPreferences(Preferences):

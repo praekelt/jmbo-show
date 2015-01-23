@@ -4,6 +4,7 @@ Changelog
 next
 ----
 #. Fix tests.
+#. Upgrade to Jmbo 2 and Django 1.6.
 
 0.3.2
 -----

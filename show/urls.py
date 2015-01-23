@@ -23,7 +23,7 @@ urlpatterns = patterns(
 
     url(
         r'^radio/(?P<slug>[\w-]+)/$',
-        ObjectDetail.as_view(),
+        ObjectDetail.as_view(is_landing=True),
         name='radioshow_object_detail'
     ),
 

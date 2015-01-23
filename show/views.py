@@ -35,12 +35,14 @@ def current_radio(request):
 class ObjectDetail(JmboObjectDetail):
     template_name = "show/show_detail.html"
     view_modifier = RadioShowDefaultViewModifier
+    is_landing = False
     is_about = False
     is_polls = False
     is_galleries = False
 
     def get_context_data(self, **kwargs):
         context = super(ObjectDetail, self).get_context_data(**kwargs)
+        context["is_landing"] = self.is_landing
         context["is_about"] = self.is_about
         context["is_polls"] = self.is_polls
         context["is_galleries"] = self.is_galleries
