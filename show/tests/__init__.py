@@ -3,7 +3,9 @@ from django.utils.timezone import datetime, timedelta
 from django.test import TestCase, Client, RequestFactory
 from django.core import management
 
-from show.models import Show
+from preferences import preferences
+
+from show.models import Contributor, Credit, Show, CreditOption
 from show.utils import get_current_next_permitted_show
 from show import views
 
@@ -176,6 +178,28 @@ class TestCase(TestCase):
             show.save()
             cls.shows[di['title']] = show
 
+        # Credit and contributor
+        show = cls.shows["The House"]
+
+        credit_option = CreditOption.objects.create(
+            show_preferences=preferences.ShowPreferences,
+            role_name="Producer",
+            role_priority=1
+        )
+
+        contributor = Contributor.objects.create(
+            title="Contributor",
+            state="published"
+        )
+        contributor.sites = [1]
+        cls.contributor = contributor
+
+        credit = Credit.objects.create(
+            contributor=contributor,
+            show=show,
+            credit_option=credit_option
+        )
+
     def test_current_next_permitted_show(self):
         monday = datetime(year=2013, month=3, day=25, hour=0, minute=0)
         tuesday = monday + timedelta(days=1)
@@ -252,3 +276,9 @@ class TestCase(TestCase):
         show = self.shows["The House"]
         response = self.client.get(show.get_absolute_url())
         self.assertEqual(response.status_code, 200)
+        self.failUnless("The House" in response.content)
+
+    def test_contributor_detail(self):
+        response = self.client.get(self.contributor.get_absolute_url())
+        self.assertEqual(response.status_code, 200)
+        self.failUnless("The House" in response.content)
